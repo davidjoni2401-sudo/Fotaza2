@@ -3,6 +3,8 @@ import path from "path";
 import dotenv from "dotenv";
 import session from "express-session";
 
+import "./config/db.js";
+
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
