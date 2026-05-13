@@ -1,0 +1,73 @@
+doctype html
+html
+  head
+    title Crear Post
+
+    style.
+      body {
+        background-color: #1e1e2f;
+        font-family: Arial, sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #2c2c3e;
+        padding: 30px;
+        border-radius: 12px;
+        width: 350px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      }
+
+      h1 {
+        text-align: center;
+        color: #00bfff;
+        margin-bottom: 20px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        resize: none;
+        height: 100px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 15px;
+        background-color: #00bfff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      button:hover {
+        background-color: #009acd;
+      }
+
+  body
+    .container
+      h1 Nueva Publicación
+
+      form(action="/posts/create" method="POST" enctype="multipart/form-data")
+
+        input(type="file" name="imagen")
+
+        textarea(name="descripcion" placeholder="Descripción")
+
+        button(type="submit") Publicar
