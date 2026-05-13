@@ -3,11 +3,11 @@ import { createUser } from "../models/userModel.js";
 
 
 export const showRegister = (req, res) => {
-    res.render("registrar");
+    res.render("register");
 };
 
 
-export const registrar = async(req, res) => {
+export const register = async(req, res) => {
     try{
         const { nombre, email, password } = req.body;
 
