@@ -3,8 +3,7 @@ html
   head
     title Registro
 
-
-     style.
+    style.
       body {
         background-color: #1e1e2f;
         font-family: Arial, sans-serif;
@@ -13,6 +12,7 @@ html
         justify-content: center;
         align-items: center;
         height: 100vh;
+        margin: 0;
       }
 
       .container {
@@ -34,6 +34,7 @@ html
         margin-top: 10px;
         border: none;
         border-radius: 5px;
+        box-sizing: border-box;
       }
 
       button {
@@ -52,20 +53,15 @@ html
       }
 
   body
-    h1 Registro de Usuario
+    .container
+      h1 Registro de Usuario
 
-    form(action="/register" method="POST")
+      form(action="/register" method="POST")
 
-      input(type="text" name="nombre" placeholder="Nombre")
-      br
-      br
+        input(type="text" name="nombre" placeholder="Nombre")
 
-      input(type="email" name="email" placeholder="Email")
-      br
-      br
+        input(type="email" name="email" placeholder="Email")
 
-      input(type="password" name="password" placeholder="Password")
-      br
-      br
+        input(type="password" name="password" placeholder="Password")
 
-      button(type="submit") Registrarse
+        button(type="submit") Registrarse

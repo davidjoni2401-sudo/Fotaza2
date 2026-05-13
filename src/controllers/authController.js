@@ -15,10 +15,10 @@ export const register = async(req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);  
 
 
-        await createUser(nombre, email, password);
+        await createUser(nombre, email, hashedpassword);
 
 
-        res.sed("Usuario registrado ✅");
+        res.send("Usuario registrado ✅");
 
     }catch(error) {
         console.log(error);
