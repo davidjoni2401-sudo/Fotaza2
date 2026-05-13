@@ -1,11 +1,11 @@
 import express from "express";
-import { showCreatePost, createPost } from "../controllers/postController";
-import upload from "../config/multer";
+import { showCreatePost, createPost } from "../controllers/postController.js";
+import upload from "../config/multer.js";
 
 
 const router = express.Router();
 
-router.get("/", showCreatePost);
+router.get("/create", showCreatePost);
 
 router.post(
     "/create",
