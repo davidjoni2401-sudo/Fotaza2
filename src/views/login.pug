@@ -1,0 +1,60 @@
+doctype html
+html
+  head
+    title Login
+
+    style.
+      body {
+        background-color: #1e1e2f;
+        font-family: Arial, sans-serif;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        background-color: #2c2c3e;
+        padding: 30px;
+        border-radius: 10px;
+        width: 300px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #00bfff;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: none;
+        box-sizing: border-box;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 15px;
+        background-color: #00bfff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+  body
+    .container
+      h1 Iniciar Sesión
+
+      form(action="/login" method="POST")
+
+        input(type="email" name="email" placeholder="Email")
+
+        input(type="password" name="password" placeholder="Password")
+
+        button(type="submit") Login
