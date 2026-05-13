@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import { createUser } from "../models/userModel.js";
 import { createUser, findUserByEmail } from "../models/userModel.js";
 
 export const showRegister = (req, res) => {
