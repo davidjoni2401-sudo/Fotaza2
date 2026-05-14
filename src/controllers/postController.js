@@ -1,3 +1,5 @@
+import { createPostModel } from "../models/postModel.js";
+
 export const showCreatePost = (req, res) => {
 
     res.render("createPost");
@@ -10,11 +12,16 @@ export const createPost = async (req, res) => {
         const imagen = req.file.filename;
 
         const { descripcion } = req.body;
+        
+        const user_id = 1;
 
-        console.log(imagen);
-        console.log(descripcion);
+        await createPostModel(
+            user_id,
+            imagen,
+            descripcion
+        );
 
-        res.send("Post creado ✅");
+        res.send("Post guardado en DB ✅");
 
     } catch(error) {
 
