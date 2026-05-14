@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    title Feed
+
+    style.
+      body {
+        background-color: #1e1e2f;
+        font-family: Arial, sans-serif;
+        color: white;
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #00bfff;
+      }
+
+      .post {
+        background-color: #2c2c3e;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px auto;
+        width: 400px;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      p {
+        margin-top: 10px;
+      }
+
+  body
+
+    h1 Feed de Publicaciones
+
+    each post in posts
+
+      .post
+
+        h3= post.nombre 
+
+        img(src=`/uploads/${post.imagen}`)
+
+        p= post.descripcion

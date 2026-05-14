@@ -38,7 +38,7 @@ export const showFeed = async (req, res) => {
 
         const result = await getAllPosts();
 
-        const post = result.rows;
+        const posts = result.rows;
 
         res.render("feed", { posts });
 
