@@ -1,4 +1,5 @@
 import { createPostModel } from "../models/postModel.js";
+import { getAllPosts } from "../models/postModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -30,3 +31,21 @@ export const createPost = async (req, res) => {
         res.send("Error creando post ❌");
     }
 };
+
+export const showFeed = async (req, res) => {
+
+    try{
+
+        const result = await getAllPosts();
+
+        const post = result.rows;
+
+        res.render("feed", { posts });
+
+    }catch(error){
+
+        console.log(error);
+
+        res.send("Error al cargar Feed ❌")
+    }
+}

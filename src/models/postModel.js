@@ -16,3 +16,13 @@ export const createPostModel = async ( user_id, imagen, descripcion) => {
         descripcion
     ])
 };
+
+export const getAllPosts = async () => {
+
+    const query = `
+        SELECT * FROM posts 
+        ORDER BY Created_at desc
+    `;
+
+    return await pool.query(query);
+} 
