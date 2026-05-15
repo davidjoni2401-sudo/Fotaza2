@@ -1,6 +1,12 @@
 import { createPostModel } from "../models/postModel.js";
 import { getAllPosts } from "../models/postModel.js";
 import { createComment, getCaommentsByPost } from "../models/commentModel.js";
+import {
+    followUser,
+    unfollowUser,
+    countFollowers,
+    countFollowing
+} from "../models/followModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -85,3 +91,56 @@ export const addComment = async (req, res) => {
         res.send("Error al comentar ❌")
     }
 }
+
+export const follow = async (req, res) => {
+
+    try {
+        
+        const follower_id = 1;
+
+        const { following_id } = req.body;
+
+        if(follower_id == following_id) {
+
+            return res.send(
+                "No podes seguirte a vos mismo ❌"
+            );
+        }
+
+        await followUser(
+            follower_id,
+            following_id
+        );
+
+        res.rendirect("/posts/feed");
+
+    } catch (error) {
+        
+        console.log(error);
+
+        res.send("Eror al seguir al usuario ❌")
+    }
+};
+
+export const unfollow = async (req, res) => {
+
+    try {
+        
+        const follower_id = 1;
+
+        const { following_id } = req.body;
+
+        await unfollowUser(
+            follower_id,
+            following_id
+        );
+
+        res.rendirect("/post/feed");
+
+    } catch (error) {
+        
+        console.log(error);
+
+        res.send("Error al dejar de seguir ❌");
+    }
+};
