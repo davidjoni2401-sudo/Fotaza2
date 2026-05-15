@@ -1,4 +1,5 @@
 doctype html
+doctype html
 html
   head
     title Feed
@@ -23,15 +24,56 @@ html
         border-radius: 10px;
         margin: 20px auto;
         width: 400px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
       }
 
       img {
         width: 100%;
         border-radius: 10px;
+        margin-top: 10px;
       }
 
       p {
         margin-top: 10px;
+      }
+
+      h3 {
+        color: #00bfff;
+      }
+
+      h4 {
+        margin-top: 20px;
+        color: #00d4ff;
+      }
+
+      .comment {
+        background-color: #3a3a50;
+        padding: 10px;
+        border-radius: 5px;
+        margin-top: 8px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #00bfff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #009acd;
       }
 
   body
@@ -42,8 +84,34 @@ html
 
       .post
 
-        h3= post.nombre 
+        h3= post.nombre
 
         img(src=`/uploads/${post.imagen}`)
 
         p= post.descripcion
+
+        h4 Comentarios
+
+        each comment in post.comments
+
+          .comment
+
+            p
+              b #{comment.nombre}:
+              |  #{comment.comentario}
+
+        form(action="/posts/comment" method="POST")
+
+          input(
+            type="hidden"
+            name="post_id"
+            value=post.id
+          )
+
+          input(
+            type="text"
+            name="comentario"
+            placeholder="Escribí un comentario"
+          )
+
+          button(type="submit") Comentar

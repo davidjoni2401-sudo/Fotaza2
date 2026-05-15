@@ -1,5 +1,6 @@
 import { createPostModel } from "../models/postModel.js";
 import { getAllPosts } from "../models/postModel.js";
+import { createComment, getCaommentsByPost } from "../models/commentModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -40,6 +41,14 @@ export const showFeed = async (req, res) => {
 
         const posts = result.rows;
 
+        for (const post of posts) {
+
+            const commentsResult =
+                await getCaommentsByPost(post.id);
+
+            post.commets = commentsResult.rows;
+        }
+
         res.render("feed", { posts });
 
     }catch(error){
@@ -47,5 +56,29 @@ export const showFeed = async (req, res) => {
         console.log(error);
 
         res.send("Error al cargar Feed ❌")
+    }
+}
+
+export const addComment = async (req, res) => {
+    
+    try {
+        
+        const { post_id, comentario } = req.body;
+
+        const  user_id = 1;
+
+        await createComment(
+            user_id,
+            post_id,
+            comentario
+        );
+
+        res.rendirect("/posts/feed");
+
+    } catch (error) {
+        
+        console.log(error);
+
+        res.send("Error al comentar ❌")
     }
 }
