@@ -92,13 +92,16 @@ html
 
         h4 Comentarios
 
-        each comment in post.comments
+        if post.comments
 
-          .comment
+          each comment in post.comments
 
-            p
-              b #{comment.nombre}:
-              |  #{comment.comentario}
+            .comment
+
+              p
+                b #{comment.nombre}:
+                |  #{comment.comentario}
+         
 
         form(action="/posts/comment" method="POST")
 

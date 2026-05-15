@@ -46,8 +46,11 @@ export const showFeed = async (req, res) => {
             const commentsResult =
                 await getCaommentsByPost(post.id);
 
-            post.commets = commentsResult.rows;
+            post.commets = 
+                commentsResult.rows;
         }
+
+        console.log(posts);
 
         res.render("feed", { posts });
 
