@@ -21,7 +21,7 @@ export const createPost = async (req, res) => {
 
         const { descripcion } = req.body;
         
-        const user_id = 1;
+        const user_id = req.session.user.id;
 
         await createPostModel(
             user_id,
@@ -52,8 +52,7 @@ export const showFeed = async (req, res) => {
             const commentsResult =
                 await getCaommentsByPost(post.id);
 
-            post.commets = 
-                commentsResult.rows;
+            post.commets = commentsResult.rows;
         }
 
         console.log(posts);
@@ -74,7 +73,7 @@ export const addComment = async (req, res) => {
         
         const { post_id, comentario } = req.body;
 
-        const  user_id = 1;
+        const  user_id = req.session.user.id;
 
         await createComment(
             user_id,
@@ -82,7 +81,7 @@ export const addComment = async (req, res) => {
             comentario
         );
 
-        res.rendirect("/posts/feed");
+        res.redirect("/posts/feed");
 
     } catch (error) {
         
@@ -96,7 +95,7 @@ export const follow = async (req, res) => {
 
     try {
         
-        const follower_id = 1;
+        const follower_id = req.session.user.id;
 
         const { following_id } = req.body;
 
@@ -112,7 +111,7 @@ export const follow = async (req, res) => {
             following_id
         );
 
-        res.rendirect("/posts/feed");
+        res.redirect("/posts/feed");
 
     } catch (error) {
         
@@ -135,7 +134,7 @@ export const unfollow = async (req, res) => {
             following_id
         );
 
-        res.rendirect("/post/feed");
+        res.redirect("/post/feed");
 
     } catch (error) {
         

@@ -12,7 +12,15 @@ import upload from "../config/multer.js";
 
 const router = express.Router();
 
-router.get("/create", showCreatePost);
+const requireLogin = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    next();
+};
+
+router.get("/create", requireLogin, showCreatePost);
 
 router.get("/feed", showFeed);
 
@@ -24,6 +32,7 @@ router.post("/unfollow", unfollow);
 
 router.post(
     "/create",
+    requireLogin,
     upload.single("imagen"),
     createPost
 );
