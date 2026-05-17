@@ -26,9 +26,9 @@ router.get("/feed", showFeed);
 
 router.post("/comment", addComment);
 
-router.post("/follow", follow);
+router.post("/follow", requireLogin, follow);
 
-router.post("/unfollow", unfollow);
+router.post("/unfollow", requireLogin, unfollow);
 
 router.post(
     "/create",

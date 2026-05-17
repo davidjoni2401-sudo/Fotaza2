@@ -5,7 +5,8 @@ import {
     followUser,
     unfollowUser,
     countFollowers,
-    countFollowing
+    countFollowing,
+    isFollowing
 } from "../models/followModel.js";
 
 export const showCreatePost = (req, res) => {
@@ -52,7 +53,22 @@ export const showFeed = async (req, res) => {
             const commentsResult =
                 await getCaommentsByPost(post.id);
 
-            post.commets = commentsResult.rows;
+            post.comments = commentsResult.rows;
+
+            if (req.session.user) {
+
+                const followingResult = await isFollowing(
+                    req.session.user.id,
+                    post.user_id
+                );
+
+                post.isFollowing =
+                    followingResult.rows.length > 0;
+
+            } else {
+
+                post.isFollowing = false;
+            }
         }
 
         console.log(posts);
@@ -125,7 +141,7 @@ export const unfollow = async (req, res) => {
 
     try {
         
-        const follower_id = 1;
+        const follower_id = req.session.user.id;
 
         const { following_id } = req.body;
 
@@ -134,7 +150,7 @@ export const unfollow = async (req, res) => {
             following_id
         );
 
-        res.redirect("/post/feed");
+        res.redirect("/posts/feed");
 
     } catch (error) {
         

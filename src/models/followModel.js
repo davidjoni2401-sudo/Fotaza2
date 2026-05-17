@@ -68,3 +68,13 @@ export const countFollowing = async (
         [user_id]
     );
 };
+
+export const isFollowing = async (follower_id , following_id) => {
+    const query = `
+        SELECT * FROM followers
+        WHERE follower_id = $1
+        AND following_id = $2
+    `;
+
+    return await pool.query(query, [follower_id, following_id]);
+};

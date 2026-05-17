@@ -86,6 +86,17 @@ html
 
         h3= post.nombre
 
+        if post.isFollowing
+          p Siguiendo a #{post.nombre}
+
+          form(action="/posts/unfollow" method="POST")
+            input(type="hidden" name="following_id" value=post.user_id)
+            button(type="submit") Dejar de seguir
+        else
+          form(action="/posts/follow" method="POST")
+            input(type="hidden" name="following_id" value=post.user_id)
+            button(type="submit") Seguir
+
         img(src=`/uploads/${post.imagen}`)
 
         p= post.descripcion

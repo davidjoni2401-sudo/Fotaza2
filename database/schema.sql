@@ -25,7 +25,9 @@ CREATE TABLE comments (
 
 CREATE TABLE followers (
     id SERIAL PRIMARY KEY,
-    follwers_id INT REFERENCES users(id) ON DELETE CASCADE,
-    follwing_id INT REFERENCES users(id) ON DELETE CASCADE
+    follower_id INT REFERENCES users(id) ON DELETE CASCADE,
+    following_id INT REFERENCES users(id) ON DELETE CASCADE,
+    UNIQUE (follwer_id, follwing_id),
+    CHECK (follwer_id <> follwing_id)
 );
 
