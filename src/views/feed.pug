@@ -86,6 +86,10 @@ html
 
         h3= post.nombre
 
+        p Seguidores: #{post.followersCount}
+        p Siguiendo: #{post.followingCount}
+
+      if !post.isOwner
         if post.isFollowing
           p Siguiendo a #{post.nombre}
 

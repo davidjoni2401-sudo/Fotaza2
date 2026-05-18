@@ -62,13 +62,22 @@ export const showFeed = async (req, res) => {
                     post.user_id
                 );
 
-                post.isFollowing =
-                    followingResult.rows.length > 0;
+                post.isFollowing = followingResult.rows.length > 0;
+
+                post.isOwner = req.session.user.id === post.user_id;                
 
             } else {
 
                 post.isFollowing = false;
+
+                post.isOwner = false;
             }
+
+            const followersResult = await countFollowers(post.user_id);
+            const followingResultCount = await countFollowing(post.user_id);
+
+            post.followersCount = followersResult.rows[0].total;
+            post.followingCount = followingResultCount.rows[0].total;
         }
 
         console.log(posts);
