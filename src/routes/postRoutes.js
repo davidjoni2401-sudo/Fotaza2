@@ -5,7 +5,8 @@ import {
     showFeed, 
     addComment,
     follow,
-    unfollow 
+    unfollow,
+    ratePost
 } from "../controllers/postController.js";
 import upload from "../config/multer.js";
 
@@ -24,11 +25,13 @@ router.get("/create", requireLogin, showCreatePost);
 
 router.get("/feed", showFeed);
 
-router.post("/comment", addComment);
+router.post("/comment", requireLogin, addComment);
 
 router.post("/follow", requireLogin, follow);
 
 router.post("/unfollow", requireLogin, unfollow);
+
+router.post("/rate", requireLogin, ratePost);
 
 router.post(
     "/create",

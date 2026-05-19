@@ -1,5 +1,4 @@
-import { createPostModel } from "../models/postModel.js";
-import { getAllPosts } from "../models/postModel.js";
+import { createPostModel, getAllPosts, searchPosts  } from "../models/postModel.js";
 import { createComment, getCaommentsByPost } from "../models/commentModel.js";
 import {
     followUser,
@@ -8,6 +7,7 @@ import {
     countFollowing,
     isFollowing
 } from "../models/followModel.js";
+import { createRating, getRatingByPost } from "../models/ratingModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -44,7 +44,15 @@ export const showFeed = async (req, res) => {
 
     try{
 
-        const result = await getAllPosts();
+        const { busqueda } = req.query;
+
+        let result;
+
+        if (busqueda) {
+            result = await searchPosts(busqueda);
+        }else {
+            result = await getAllPosts();
+        }
 
         const posts = result.rows;
 
@@ -78,6 +86,11 @@ export const showFeed = async (req, res) => {
 
             post.followersCount = followersResult.rows[0].total;
             post.followingCount = followingResultCount.rows[0].total;
+
+            const ratingResult = await getRatingByPost(post.id);
+
+            post.ratingPromedio = ratingResult.rows[0].promedio;
+            post.ratingCantidad = ratingResult.rows[0].cantidad;
         }
 
         console.log(posts);
@@ -88,7 +101,7 @@ export const showFeed = async (req, res) => {
 
         console.log(error);
 
-        res.send("Error al cargar Feed ❌")
+        res.redirect("/posts/feed");
     }
 }
 
@@ -166,5 +179,21 @@ export const unfollow = async (req, res) => {
         console.log(error);
 
         res.send("Error al dejar de seguir ❌");
+    }
+};
+
+export const ratePost = async (req, res) => {
+    try {
+        const user_id = req.session.user.id;
+        const { post_id, valor } = req.body;
+
+
+        await createRating(user_id, post_id, valor);
+
+        res.redirect("/posts/feed");
+
+    } catch (error) {
+        console.log(error);
+        res.redirect("/posts/feed");
     }
 };

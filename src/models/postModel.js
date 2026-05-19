@@ -30,4 +30,21 @@ export const getAllPosts = async () => {
     `;
 
     return await pool.query(query);
-} 
+}
+
+export const searchPosts = async (busqueda) => {
+
+    const query = `
+        SELECT
+            posts.*,
+            users.nombre
+        FROM posts
+        JOIN users
+            ON posts.user_id = users.id
+        WHERE posts.descripcion ILIKE $1
+        OR users.nombre ILIKE $1
+        ORDER BY posts.created_at DESC
+    `;
+
+    return await pool.query(query, [`%${busqueda}%`]);
+};
