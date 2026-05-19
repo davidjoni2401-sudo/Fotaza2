@@ -21,6 +21,10 @@ export const register = async(req, res) => {
 
     }catch(error) {
         console.log(error);
+
+        if(error.code === "23505"){
+            return res.send("Ese email ya esta registrado ❌");
+        }
         res.send("Error al registarte como usuario ❌");
     }
 };

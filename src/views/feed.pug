@@ -100,6 +100,8 @@ html
 
         h3= post.nombre
 
+        h4= post.titulo 
+
         p Seguidores: #{post.followersCount}
         p Siguiendo: #{post.followingCount}
 
@@ -119,7 +121,15 @@ html
 
         p= post.descripcion
 
-         p Valoración: #{post.ratingPromedio} / 5 (#{post.ratingCantidad} votos)
+        if post.etiquetas 
+          p Etiquetas: #{post.etiquetas}
+
+        p Licencia: #{post.licencia}
+
+        if post.marca_agua
+          p Marca de agua: #{post.marca_agua}
+
+        p Valoración: #{post.ratingPromedio} / 5 (#{post.ratingCantidad} votos)
 
         if !post.isOwner
           form(action="/posts/rate" method="POST")
@@ -131,6 +141,8 @@ html
               option(value="4") 4
               option(value="5") 5
             button(type="submit") Valorar
+        else 
+          p No podes valorar tu propia publicacion
 
         h4 Comentarios
 

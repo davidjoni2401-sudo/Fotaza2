@@ -20,14 +20,18 @@ export const createPost = async (req, res) => {
 
         const imagen = req.file.filename;
 
-        const { descripcion } = req.body;
+        const { titulo, descripcion, etiquetas, licencia, marca_agua } = req.body;
         
         const user_id = req.session.user.id;
 
         await createPostModel(
             user_id,
+            titulo,
             imagen,
-            descripcion
+            descripcion,
+            etiquetas,
+            licencia,
+            marca_agua
         );
 
         res.send("Post guardado en DB ✅");
