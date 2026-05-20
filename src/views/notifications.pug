@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title Notificaciones
+  body
+    h1 Notificaciones
+
+    if notifications.length === 0
+      p No tenés notificaciones
+    else
+      each notification in notifications
+        div
+          p
+            b= notification.from_nombre
+            |  #{notification.mensaje}
+
+          p Tipo: #{notification.tipo}
+
+          if notification.leida
+            p Leída
+          else
+            form(action="/notifications/read" method="POST")
+              input(type="hidden" name="id" value=notification.id)
+              button(type="submit") Marcar como leída

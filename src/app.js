@@ -8,6 +8,8 @@ import "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
+import notificationRoutes from "./routes/notificationRoutes.js"
+
 dotenv.config();
 
 const app = express();
@@ -34,6 +36,7 @@ app.use(express.static("public"));
 
 app.use("/", authRoutes);
 app.use("/posts", postRoutes);
+app.use("/notifications", notificationRoutes);
 
 
 app.get("/", (req, res) => {
