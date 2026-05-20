@@ -58,3 +58,12 @@ export const searchPosts = async (busqueda) => {
 
     return await pool.query(query, [`%${busqueda}%`]);
 };
+
+export const getPostById = async (post_id) => {
+    const query = `
+        SELECT * FROM posts
+        WHERE id = $1
+    `;
+
+    return await pool.query(query, [post_id]);
+};

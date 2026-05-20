@@ -1,4 +1,4 @@
-import { createPostModel, getAllPosts, searchPosts  } from "../models/postModel.js";
+import { createPostModel, getAllPosts, searchPosts, getPostById } from "../models/postModel.js";
 import { createComment, getCaommentsByPost } from "../models/commentModel.js";
 import {
     followUser,
@@ -8,6 +8,7 @@ import {
     isFollowing
 } from "../models/followModel.js";
 import { createRating, getRatingByPost } from "../models/ratingModel.js";
+import { createNotification } from "../models/notificationModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -21,7 +22,7 @@ export const createPost = async (req, res) => {
         const imagen = req.file.filename;
 
         const { titulo, descripcion, etiquetas, licencia, marca_agua } = req.body;
-        
+
         const user_id = req.session.user.id;
 
         await createPostModel(
@@ -36,7 +37,7 @@ export const createPost = async (req, res) => {
 
         res.send("Post guardado en DB ✅");
 
-    } catch(error) {
+    } catch (error) {
 
         console.log(error);
 
@@ -46,7 +47,7 @@ export const createPost = async (req, res) => {
 
 export const showFeed = async (req, res) => {
 
-    try{
+    try {
 
         const { busqueda } = req.query;
 
@@ -54,7 +55,7 @@ export const showFeed = async (req, res) => {
 
         if (busqueda) {
             result = await searchPosts(busqueda);
-        }else {
+        } else {
             result = await getAllPosts();
         }
 
@@ -76,7 +77,7 @@ export const showFeed = async (req, res) => {
 
                 post.isFollowing = followingResult.rows.length > 0;
 
-                post.isOwner = req.session.user.id === post.user_id;                
+                post.isOwner = req.session.user.id === post.user_id;
 
             } else {
 
@@ -101,7 +102,7 @@ export const showFeed = async (req, res) => {
 
         res.render("feed", { posts });
 
-    }catch(error){
+    } catch (error) {
 
         console.log(error);
 
@@ -110,12 +111,12 @@ export const showFeed = async (req, res) => {
 }
 
 export const addComment = async (req, res) => {
-    
+
     try {
-        
+
         const { post_id, comentario } = req.body;
 
-        const  user_id = req.session.user.id;
+        const user_id = req.session.user.id;
 
         await createComment(
             user_id,
@@ -123,10 +124,22 @@ export const addComment = async (req, res) => {
             comentario
         );
 
+        const postResult = await getPostById(post_id);
+        const post = postResult.rows[0];
+
+        if (post.user_id !== user_id) {
+            await createNotification(
+                post.user_id,
+                user_id,
+                "comentario",
+                "comentó tu publicación"
+            );
+        }
+
         res.redirect("/posts/feed");
 
     } catch (error) {
-        
+
         console.log(error);
 
         res.send("Error al comentar ❌")
@@ -136,12 +149,12 @@ export const addComment = async (req, res) => {
 export const follow = async (req, res) => {
 
     try {
-        
+
         const follower_id = req.session.user.id;
 
         const { following_id } = req.body;
 
-        if(follower_id == following_id) {
+        if (follower_id == following_id) {
 
             return res.send(
                 "No podes seguirte a vos mismo ❌"
@@ -156,7 +169,7 @@ export const follow = async (req, res) => {
         res.redirect("/posts/feed");
 
     } catch (error) {
-        
+
         console.log(error);
 
         res.send("Eror al seguir al usuario ❌")
@@ -166,7 +179,7 @@ export const follow = async (req, res) => {
 export const unfollow = async (req, res) => {
 
     try {
-        
+
         const follower_id = req.session.user.id;
 
         const { following_id } = req.body;
@@ -179,7 +192,7 @@ export const unfollow = async (req, res) => {
         res.redirect("/posts/feed");
 
     } catch (error) {
-        
+
         console.log(error);
 
         res.send("Error al dejar de seguir ❌");
