@@ -166,6 +166,13 @@ export const follow = async (req, res) => {
             following_id
         );
 
+        await createNotification(
+            following_id,
+            follower_id,
+            "follow",
+            "comenzo a seguirte"
+        );
+
         res.redirect("/posts/feed");
 
     } catch (error) {
@@ -206,6 +213,18 @@ export const ratePost = async (req, res) => {
 
 
         await createRating(user_id, post_id, valor);
+
+        const postResult = await getPostById(post_id);
+        const post = postResult.rows[0];
+
+        if (post.user_id !== user_id) {
+            await createNotification (
+                post.user_id,
+                user_id,
+                "valoracion",
+                "valoro tu publicacion"
+            );
+        } 
 
         res.redirect("/posts/feed");
 

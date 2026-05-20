@@ -1,5 +1,4 @@
-import  pool from ".../config/db.js";
-
+import  pool from "../config/db.js";
 
 export const createNotification = async (
     user_id,
@@ -41,7 +40,7 @@ export const getNotificationsByUser = async (user_id) => {
     return await pool.query(query, [user_id]);
 };
 
-export const markNotificationsAsRead = async (Id, user_id) => {
+export const markNotificationAsRead = async (Id, user_id) => {
     const query = `
         UPDATE notifications
         SET leida = true

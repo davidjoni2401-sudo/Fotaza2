@@ -3,7 +3,7 @@ import {
     markNotificationAsRead
 } from "../models/notificationModel.js";
 
-export const showNotifications = async (requestAnimationFrame, res) => {
+export const showNotifications = async (req, res) => {
     try {
         const user_id = req.session.user.id;
 

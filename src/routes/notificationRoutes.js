@@ -9,7 +9,7 @@ const router = express.Router();
 
 const requiereLogin = (req, res, next) => {
     if (!req.session.user) {
-        return res.rendirect("/login");
+        return res.redirect("/login");
     }
 
     next();
