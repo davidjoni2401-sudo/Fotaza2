@@ -4,11 +4,13 @@ import dotenv from "dotenv";
 import session from "express-session";
 
 import "./config/db.js";
+import sequelize from "./config/sequelize.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
 import notificationRoutes from "./routes/notificationRoutes.js"
+import { error } from "console";
 
 dotenv.config();
 
@@ -43,6 +45,9 @@ app.get("/", (req, res) => {
     res.send("Fotaza 2 funcionando 🚀");
 });
 
+sequelize.authenticate()
+    .then(() => console.log("Sequelize conectado ✅"))
+    .catch(error => console.log("Error Sequelize ❌", error));
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor en http://localhost:${process.env.PORT}`);

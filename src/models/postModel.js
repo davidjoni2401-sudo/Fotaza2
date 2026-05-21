@@ -1,20 +1,16 @@
-import pool from "../config/db.js";
+import { Op } from "sequelize";
+import { Post, User } from "../sequelizeModels/index.js";
 
-export const createPostModel = async ( user_id, titulo, imagen, descripcion, etiquetas, licencia, marca_agua) => {
-    const query = `
-        INSERT INTO posts (
-            user_id,
-            titulo,
-            imagen,
-            descripcion,
-            etiquetas,
-            licencia,
-            marca_agua
-        )
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-    `;
-
-    return await pool.query(query, [
+export const createPostModel = async (
+    user_id,
+    titulo,
+    imagen,
+    descripcion,
+    etiquetas,
+    licencia,
+    marca_agua
+) => {
+    return await Post.create({
         user_id,
         titulo,
         imagen,
@@ -22,48 +18,64 @@ export const createPostModel = async ( user_id, titulo, imagen, descripcion, eti
         etiquetas,
         licencia,
         marca_agua
-    ])
+    });
 };
 
 export const getAllPosts = async () => {
+    const posts = await Post.findAll({
+        include: [{
+            model: User,
+            attributes: ["nombre"]
+        }],
+        order: [["created_at", "DESC"]]
+    });
 
-    const query = `
-        SELECT
-            posts.*,
-            users.nombre
-        FROM posts
-        JOIN users
-            ON posts.user_id = users.id
-        ORDER BY posts.created_at DESC
-    `;
+    return {
+        rows: posts.map(post => {
+            const plain = post.get({ plain: true });
 
-    return await pool.query(query);
-}
+            return {
+                ...plain,
+                nombre: plain.User.nombre
+            };
+        })
+    };
+};
 
 export const searchPosts = async (busqueda) => {
+    const posts = await Post.findAll({
+        include: [{
+            model: User,
+            attributes: ["nombre"],
+            required: true
+        }],
+        where: {
+            [Op.or]: [
+                { descripcion: { [Op.iLike]: `%${busqueda}%` } },
+                { titulo: { [Op.iLike]: `%${busqueda}%` } },
+                { etiquetas: { [Op.iLike]: `%${busqueda}%` } },
+                { "$User.nombre$": { [Op.iLike]: `%${busqueda}%` } }
+            ]
+        },
+        order: [["created_at", "DESC"]]
+    });
 
-    const query = `
-        SELECT
-            posts.*,
-            users.nombre
-        FROM posts
-        JOIN users
-            ON posts.user_id = users.id
-        WHERE posts.descripcion ILIKE $1
-        OR users.nombre ILIKE $1
-        OR posts.titulo ILIKE $1
-        OR posts.etiquetas ILIKE $1
-        ORDER BY posts.created_at DESC
-    `;
+    return {
+        rows: posts.map(post => {
+            const plain = post.get({ plain: true });
 
-    return await pool.query(query, [`%${busqueda}%`]);
+            return {
+                ...plain,
+                nombre: plain.User.nombre
+            };
+        })
+    };
 };
 
 export const getPostById = async (post_id) => {
-    const query = `
-        SELECT * FROM posts
-        WHERE id = $1
-    `;
+    const post = await Post.findByPk(post_id);
 
-    return await pool.query(query, [post_id]);
+    return {
+        rows: post ? [post.get({ plain: true })] : []
+    };
 };
