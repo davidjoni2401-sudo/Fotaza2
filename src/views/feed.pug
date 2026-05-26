@@ -173,6 +173,16 @@ html
         else 
           p No podes valorar tu propia publicacion
 
+        if collections && collections.length > 0
+          form(action="/collections/save" method="POST")
+            input(type="hidden" name="post_id" value=post.id)
+
+            select(name="collection_id")
+              each collection in collections
+                option(value=collection.id)= collection.nombre
+
+            button(type="submit") Guardar en colección
+
         h4 Comentarios
 
         if post.comments

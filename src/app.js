@@ -12,6 +12,8 @@ import postRoutes from "./routes/postRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js"
 import { error } from "console";
 
+import collectionRoutes from "./routes/collectionRoutes.js";
+
 dotenv.config();
 
 const app = express();
@@ -39,6 +41,8 @@ app.use(express.static("public"));
 app.use("/", authRoutes);
 app.use("/posts", postRoutes);
 app.use("/notifications", notificationRoutes);
+
+app.use("/collections", collectionRoutes);
 
 
 app.get("/", (req, res) => {

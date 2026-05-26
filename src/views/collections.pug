@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Colecciones
+  body
+    h1 Mis colecciones
+
+    form(action="/collections" method="POST")
+      input(
+        type="text"
+        name="nombre"
+        placeholder="Nombre de la colección"
+      )
+      button(type="submit") Crear colección
+
+    if collections.length === 0
+      p No tenés colecciones
+    else
+      each collection in collections
+        div
+          h3= collection.nombre
+          a(href=`/collections/${collection.id}`) Ver publicaciones

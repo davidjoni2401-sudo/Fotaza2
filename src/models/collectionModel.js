@@ -1,61 +1,67 @@
-import pool from "../config/db.js";
+import {Collection, CollectionPost, Post, User } from "../sequelizeModels/index.js";
 
 export const createCollection = async (user_id, nombre) => {
-    const query = `
-        INSERT INTO collections (user_id, nombre)
-        VALUES ($1, $2)
-    `;
-
-    return await pool.query(query, [user_id, nombre]);
+    return await Collection.create({
+        user_id,
+        nombre
+    });
 };
 
-export const getCollectionByUser = async (user_id) => {
-    const query = `
-        SELECT *
-        FROM collections
-        WHERE user_id = $1
-        ORDER BY created_at DESC
-    `;
+export const getCollectionsByUser = async (user_id) => {
+    const collections = await Collection.findAll({
+        where: { user_id },
+        order: [["created_at", "DESC"]]
+    });
 
-    return await pool.query(query, [user_id]);
+    return {
+        rows: collections.map(collection => 
+            collection.get({ plain: true })
+        )
+    };
 };
 
 export const addPostToCollection = async (collection_id, post_id) => {
-    const query = `
-        SELECT
-            posts.*,
-            users.nombre AS autor
-        FROM collection_posts
-        JOIN collections
-            ON collection_posts.collection_id = collections.id
-        JOIN posts
-            ON collection_posts.post_id = posts.id
-        JOIN users
-            ON posts.user_id = users.id
-        WHERE collection_posts.collection_id = $1
-        AND collections.user_id = $2
-        ORDER BY collection_posts.created_at DESC
-    `;
+    const collections = await Collection.findAll({
+        where: { user_id },
+        order: [["created_at", "DESC"]]
+    });
 
-    return await pool.query(query, [collection_id, user_id]);
+    return {
+        rows: collections.map(collection => 
+            collection.get({ plain: true })
+        )
+    };
 };
 
 export const getPostsByCollection = async (collection_id, user_id) => {
-    const query = `
-        SELECT
-            posts.*,
-            users.nombre AS autor
-        FROM collection_posts
-        JOIN collections
-            ON collection_posts.collection_id = collections.id
-        JOIN posts
-            ON collection_posts.post_id = posts.id
-        JOIN users
-            ON posts.user_id = users.id
-        WHERE collection_posts.collection_id = $1
-        AND collections.user_id = $2
-        ORDER BY collection_posts.created_at DESC
-    `;
+    const savedPosts = await CollectionPost.findAll({
+        where: { collection_id },
+        include: [
+            {
+                model: Collection,
+                where: { user_id },
+                attributes: []
+            },
+            {
+                model: Post,
+                include: [{
+                    model: User,
+                    attributes: ["nombre"]
+                }]
+            }
+        ],
+        order: [["created_at", "DESC"]]
+    });
 
-    return await pool.query(query, [collection_id, user_id]);
+    return {
+        rows: savedPosts.map(item => {
+            const plain = item.get({ plain: true });
+            const post = plain.Post;
+
+            return {
+                ...post,
+                autor: post.User.nombre
+            };
+        })
+    };
 };

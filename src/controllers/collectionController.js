@@ -1,8 +1,8 @@
 import {
     createCollection,
-    getCollectionByUser,
+    getCollectionsByUser,
     addPostToCollection,
-    getCollectionByUser
+    getPostsByCollection
 } from "../models/collectionModel.js";
 
 export const showCollections = async (req, res) => {

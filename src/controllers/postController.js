@@ -9,6 +9,7 @@ import {
 } from "../models/followModel.js";
 import { createRating, getRatingByPost } from "../models/ratingModel.js";
 import { createNotification } from "../models/notificationModel.js";
+import { getCollectionsByUser } from "../models/collectionModel.js";
 
 export const showCreatePost = (req, res) => {
 
@@ -100,7 +101,14 @@ export const showFeed = async (req, res) => {
 
         console.log(posts);
 
-        res.render("feed", { posts });
+        let collection = [];
+
+        if (req.session.user) {
+            const collectionResult = await getCollectionsByUser(req.session.user.id);
+            collections = collectionResult.rows;
+        }
+
+        res.render("feed", { posts, collections });
 
     } catch (error) {
 

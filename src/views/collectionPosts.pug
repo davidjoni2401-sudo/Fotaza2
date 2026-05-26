@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title Publicaciones de colección
+  body
+    h1 Publicaciones guardadas
+
+    if posts.length === 0
+      p No hay publicaciones en esta colección
+    else
+      each post in posts
+        div
+          h3= post.titulo
+          p Autor: #{post.autor}
+          img(src=`/uploads/${post.imagen}` width="300")
+          p= post.descripcion

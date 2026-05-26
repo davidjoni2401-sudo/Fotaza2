@@ -4,6 +4,8 @@ import Comment from "./Comment.js";
 import Rating from "./Rating.js";
 import Follow from "./Follow.js";
 import Notification from "./Notification.js";
+import Collection from "./Collection.js";
+import CollectionPost from "./CollectionPost.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -75,11 +77,37 @@ Notification.belongsTo(User, {
     as: "fromUser"
 });
 
+User.hasMany(Collection, {
+    foreignKey: "user_id"
+});
+
+Collection.belongsTo(User, {
+    foreignKey: "user_id"
+});
+
+Collection.hasMany(CollectionPost, {
+    foreignKey: "collection_id"
+});
+
+CollectionPost.belongsTo(Collection, {
+    foreignKey: "collection_id"
+});
+
+Post.hasMany(CollectionPost, {
+    foreignKey: "post_id"
+});
+
+CollectionPost.belongsTo(Post, {
+    foreignKey: "post_id"
+});
+
 export {
     User,
     Post,
     Comment,
     Rating,
     Follow,
-    Notification
+    Notification,
+    Collection,
+    CollectionPost
 };
