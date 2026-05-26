@@ -96,7 +96,7 @@ html
 
       .watermark {
         position: absolute;
-        rigth: 12px;
+        right: 12px;
         bottom: 12px;
         color: white;
         background: rgba(0, 0, 0, 0.45);
@@ -142,8 +142,8 @@ html
               button(type="submit") Seguir
 
         .image-box
-            .imge-box
-              img(src="/uploads/${post.imagen}")
+            .image-box
+              img(src=`/uploads/${post.imagen}`)
 
             if post.marca_agua
               span.watermark= post.marca_agua

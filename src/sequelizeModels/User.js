@@ -1,18 +1,31 @@
-import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
+import { DataTypes } from "sequelize";
+import sequelize from "../config/sequelize.js";
 
-dotenv.config();
-
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dialect: "postgres",
-        logging: false
+const User = sequelize.define("User", {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    nombre: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    email: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        unique: true
+    },
+    password: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    foto_perfil: {
+        type: DataTypes.TEXT
     }
-);
+}, {
+    tableName: "users",
+    timestamps: false
+});
 
-export default sequelize;
+export default User;
