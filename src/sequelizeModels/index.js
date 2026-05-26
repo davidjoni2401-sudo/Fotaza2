@@ -1,5 +1,9 @@
 import User from "./User.js";
 import Post from "./Post.js";
+import Comment from "./Comment.js";
+import Rating from "./Rating.js";
+import Follow from "./Follow.js";
+import Notification from "./Notification.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -9,7 +13,73 @@ Post.belongsTo(User, {
     foreignKey: "user_id"
 });
 
+User.hasMany(Comment, {
+    foreignKey: "user_id"
+});
+
+Comment.belongsTo(User, {
+    foreignKey: "user_id"
+});
+
+Post.hasMany(Comment, {
+    foreignKey: "post_id"
+});
+
+Comment.belongsTo(Post, {
+    foreignKey: "post_id"
+});
+
+User.hasMany(Rating, {
+    foreignKey: "user_id"
+});
+
+Rating.belongsTo(User,{
+    foreignKey: "user_id"
+});
+
+Post.hasMany(Rating, {
+    foreignKey: "post_id"
+});
+
+Rating.belongsTo(Post, {
+    foreignKey: "post_id"
+});
+
+User.hasMany(Follow, {
+    foreignKey: "follower_id",
+    as: "following"
+});
+
+User.hasMany(Follow, {
+    foreignKey: "following_id",
+    as: "followers"
+});
+
+Follow.belongsTo(User, {
+    foreignKey: "follower_id",
+    as: "follower"
+});
+
+Follow.belongsTo(User, {
+    foreignKey: "following_id",
+    as: "followingUser"
+});
+
+User.hasMany(Notification, {
+    foreignKey: "user_id",
+    as: "notifications"
+});
+
+Notification.belongsTo(User, {
+    foreignKey: "from_user_id",
+    as: "fromUser"
+});
+
 export {
     User,
-    Post
+    Post,
+    Comment,
+    Rating,
+    Follow,
+    Notification
 };
