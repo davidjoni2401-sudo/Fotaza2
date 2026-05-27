@@ -182,6 +182,16 @@ html
                 option(value=collection.id)= collection.nombre
 
             button(type="submit") Guardar en colección
+            
+        if !post.isOwner
+          form(action="/interests" method="POST")
+            input(type="hidden" name="post_id" value=post.id)
+            input(
+              type="text"
+              name="mensaje"
+              placeholder="Mensaje para el autor"
+             )
+            button(type="submit") Me interesa
 
         h4 Comentarios
 

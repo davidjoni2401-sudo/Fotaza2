@@ -1,7 +1,7 @@
 import {
     createInterest,
     getInterestsByPostOwner
-} from "../models/notificationModel.js";
+} from "../models/interestModel.js";
 
 import { getPostById } from "../models/postModel.js";
 import { createNotification } from "../models/notificationModel.js";
@@ -54,6 +54,6 @@ export const showInterests = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.send("Erroo al cargar interesados ❌");
+        res.send("Error al cargar interesados ❌");
     }
 };

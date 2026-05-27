@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Interesados
+  body
+    h1 Usuarios interesados
+
+    if interests.length === 0
+      p No hay usuarios interesados todavía
+    else
+      each interest in interests
+        div
+          h3= interest.post_titulo
+          img(src=`/uploads/${interest.post_imagen}` width="250")
+          p Interesado: #{interest.interesado_nombre}
+          p Email: #{interest.interesado_email}
+
+          if interest.mensaje
+            p Mensaje: #{interest.mensaje}

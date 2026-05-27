@@ -17,6 +17,9 @@ const Interest = sequelize.define("Interest", {
     },
     mensaje: {
         type: DataTypes.TEXT
+    },
+    created_at: {
+        type: DataTypes.DATE
     }
 }, {
     tableName: "interests",
