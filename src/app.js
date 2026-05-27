@@ -13,6 +13,7 @@ import notificationRoutes from "./routes/notificationRoutes.js"
 import { error } from "console";
 
 import collectionRoutes from "./routes/collectionRoutes.js";
+import interestRoutes from "./routes/interestRoutes.js";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use("/posts", postRoutes);
 app.use("/notifications", notificationRoutes);
 
 app.use("/collections", collectionRoutes);
+app.use("/interests", interestRoutes);
 
 
 app.get("/", (req, res) => {
