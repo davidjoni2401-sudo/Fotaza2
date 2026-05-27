@@ -7,6 +7,7 @@ import Notification from "./Notification.js";
 import Collection from "./Collection.js";
 import CollectionPost from "./CollectionPost.js";
 import Interest from "./Interest.js";
+import PostReport from "./PostReport.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -118,6 +119,22 @@ Interest.belongsTo(Post, {
     foreignKey: "post_id"
 });
 
+User.hasMany(PostReport, {
+    foreignKey: "user_id"
+});
+
+PostReport.belongsTo(User, {
+    foreignKey: "user_id"
+});
+
+Post.hasMany(PostReport, {
+    foreignKey: "post_id"
+});
+
+PostReport.belongsTo(Post, {
+    foreignKey: "post_id"
+});
+
 export {
     User,
     Post,
@@ -127,5 +144,6 @@ export {
     Notification,
     Collection,
     CollectionPost,
-    Interest
+    Interest,
+    PostReport
 };

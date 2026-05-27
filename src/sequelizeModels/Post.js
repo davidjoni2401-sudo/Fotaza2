@@ -30,6 +30,10 @@ const Post = sequelize.define("Post", {
     },
     marca_agua: {
         type: DataTypes.TEXT
+    },
+    estado: {
+        type: DataTypes.STRING(50),
+        defaultValue: "activo"
     }
 }, {
     tableName: "posts",

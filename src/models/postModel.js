@@ -23,6 +23,9 @@ export const createPostModel = async (
 
 export const getAllPosts = async () => {
     const posts = await Post.findAll({
+        where: {
+            estado: "activo"
+        },
         include: [{
             model: User,
             attributes: ["nombre"]
@@ -50,6 +53,7 @@ export const searchPosts = async (busqueda) => {
             required: true
         }],
         where: {
+            estado: "activo",
             [Op.or]: [
                 { descripcion: { [Op.iLike]: `%${busqueda}%` } },
                 { titulo: { [Op.iLike]: `%${busqueda}%` } },

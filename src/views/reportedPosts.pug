@@ -1,0 +1,26 @@
+doctype html
+html
+  head
+    title Denuncias
+  body
+    h1 Publicaciones denunciadas
+
+    if reports.length === 0
+      p No hay denuncias
+    else
+      each report in reports
+        div
+          h3= report.Post.titulo
+          p Autor: #{report.Post.User.nombre}
+          img(src=`/uploads/${report.Post.imagen}` width="250")
+          p Motivo: #{report.motivo}
+          p Descripción: #{report.descripcion}
+          p Denunciante: #{report.User.nombre}
+
+          form(action="/reports/dismiss" method="POST")
+            input(type="hidden" name="post_id" value=report.post_id)
+            button(type="submit") Desestimar denuncias
+
+          form(action="/reports/remove" method="POST")
+            input(type="hidden" name="post_id" value=report.post_id)
+            button(type="submit") Bajar publicación

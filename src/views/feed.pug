@@ -193,6 +193,24 @@ html
              )
             button(type="submit") Me interesa
 
+        if !post.isOwner
+          form(action="/reports/post" method="POST")
+            input(type="hidden" name="post_id" value=post.id)
+
+            select(name="motivo")
+              option(value="contenido inapropiado") Contenido inapropiado
+              option(value="copyright") Copyright
+              option(value="spam") Spam
+              option(value="otro") Otro
+
+            input(
+              type="text"
+              name="descripcion"
+              placeholder="Descripción de la denuncia"
+            )
+
+            button(type="submit") Denunciar
+
         h4 Comentarios
 
         if post.comments
