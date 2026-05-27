@@ -101,11 +101,11 @@ export const showFeed = async (req, res) => {
 
         console.log(posts);
 
-        let collection = [];
+        let collections = [];
 
         if (req.session.user) {
-            const collectionResult = await getCollectionsByUser(req.session.user.id);
-            collections = collectionResult.rows;
+            const collectionsResult = await getCollectionsByUser(req.session.user.id);
+            collections = collectionsResult.rows;
         }
 
         res.render("feed", { posts, collections });

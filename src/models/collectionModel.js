@@ -21,16 +21,10 @@ export const getCollectionsByUser = async (user_id) => {
 };
 
 export const addPostToCollection = async (collection_id, post_id) => {
-    const collections = await Collection.findAll({
-        where: { user_id },
-        order: [["created_at", "DESC"]]
+    return await CollectionPost.create({
+        collection_id,
+        post_id
     });
-
-    return {
-        rows: collections.map(collection => 
-            collection.get({ plain: true })
-        )
-    };
 };
 
 export const getPostsByCollection = async (collection_id, user_id) => {
