@@ -17,12 +17,22 @@ const requiereLogin = (req, res, next) => {
     next();
 };
 
+const requiereValidador = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+    if (req.session.user.rol !== "validador") {
+        return res.redirect("/posts/feed");
+    }
+    next();
+};
+
 router.post("/post", requiereLogin, reportPost);
 
-router.get("/", requiereLogin, showReportedPosts);
+router.get("/", requiereValidador, showReportedPosts);
 
-router.post("/dismiss", requiereLogin, dismissPostReports);
+router.post("/dismiss", requiereValidador, dismissPostReports);
 
-router.post("/remove", requiereLogin, removeReportedPost);
+router.post("/remove", requiereValidador, removeReportedPost);
 
 export default router;

@@ -22,6 +22,14 @@ const User = sequelize.define("User", {
     },
     foto_perfil: {
         type: DataTypes.TEXT
+    },
+    estado: {
+        type: DataTypes.STRING(20),
+        defaultValue: "activo"
+    },
+    rol: {
+        type: DataTypes.STRING(20),
+        defaultValue: "usuario"
     }
 }, {
     tableName: "users",
