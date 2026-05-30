@@ -95,4 +95,17 @@ html
         placeholder="Texto de marca de agua"
       )
 
+      script.
+        const licenciaSelect = document.querySelector('select[name="licencia"]');
+        const marcaAguaInput = document.querySelector('input[name="marca_agua"]');
+        marcaAguaInput.style.display = 'none';
+        licenciaSelect.addEventListener('change' , function(){
+          if (this.value === 'con copyright') {
+            marcaAguaInput.style.display = 'block';
+          } else {
+            marcaAguaInput.style.display = 'none';
+            marcaAguaInput.style.value = '';    
+          }
+        });
+
       button(type="submit") Publicar

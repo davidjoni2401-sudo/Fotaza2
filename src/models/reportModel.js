@@ -78,4 +78,15 @@ export const removePost = async (post_id) => {
     return await PostReport.destroy({
         where: { post_id }
     });
+
+    const post = await Post.findByPk(post_id);
+    const bajadas = await Post.count({
+        where: { user_id: post.user_id, estado: "bajado" }
+    });
+    if (bajadas >= 3) {
+        await User.update(
+            { estado: "inactivo" },
+            { where: { id: post.user_id } }
+        );
+    }
 };
