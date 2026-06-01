@@ -50,7 +50,10 @@ app.use("/reports", reportRoutes);
 
 
 app.get("/", (req, res) => {
-    res.send("Fotaza 2 funcionando 🚀");
+    if (req.session.user) {
+        return res.redirect("/posts/feed");
+    }
+    res.redirect("/login")
 });
 
 sequelize.authenticate()
