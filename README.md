@@ -81,13 +81,14 @@ La aplicación quedará disponible en: **http://localhost:3000**
 
 Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales para probar la aplicación:
 
-| Nombre   | Email                          | Contraseña |
-|----------|--------------------------------|------------|
-| Jonatan  | davi_joni9514@hotmail.com      | 1234       |
-| Elizabet | david.joni2401@gmail.com       | 4321       |
-| Daiana   | narutoluffyichigo95@gmail.com  | 3456       |
-| Elizabet | david@gmail.com                | 12345      |
-| Cecilia  | joni2401@gmail.com             | 1234       |
+| Nombre   | Email                          | Contraseña   | Rol                      |
+|----------|--------------------------------|--------------|--------------------------|
+| Jonatan  | davi_joni9514@hotmail.com      | 1234         | usuario                  |
+| Elizabet | david.joni2401@gmail.com       | 4321         | usuario                  |
+| Daiana   | narutoluffyichigo95@gmail.com  | 3456         | usuario                  |
+| Elizabet | david@gmail.com                | 12345        | usuario                  |
+| Cecilia  | joni2401@gmail.com             | 1234         | usuario                  |
+| Validador| validador@fotaza.com           | validador123 | validador de contenidos  |
 
 > **Nota:** Para probar interacciones entre usuarios (seguir, comentar, valorizar, denunciar) se recomienda iniciar sesión con dos usuarios distintos en navegadores o perfiles diferentes.
 
