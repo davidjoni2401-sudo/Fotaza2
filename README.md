@@ -152,7 +152,7 @@ Fotaza2/
 
 ## Aplicación en producción
 
-> ⚠️ URL de producción pendiente de deploy.
+> https://fotaza2.onrender.com
 
 ---
 
