@@ -64,3 +64,10 @@ export const isFollowing = async (follower_id, following_id) => {
         rows: follow ? [follow.get({ plain: true })] : []
     };
 };
+export const getFollowingIds = async (follower_id) => {
+    const follows = await Follow.findAll({
+        where: { follower_id }
+    });
+
+    return follows.map(follow => follow.following_id);
+};

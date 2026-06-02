@@ -83,3 +83,43 @@ export const getPostById = async (post_id) => {
         rows: post ? [post.get({ plain: true })] : []
     };
 };
+export const getPostsByUserIds = async (userIds) => {
+    if (!userIds || userIds.length === 0) {
+        return { rows: [] };
+    }
+
+    const posts = await Post.findAll({
+        where: {
+            estado: "activo",
+            user_id: { [Op.in]: userIds }
+        },
+        include: [{
+            model: User,
+            attributes: ["nombre"]
+        }],
+        order: [["id", "DESC"]]
+    });
+
+    return {
+        rows: posts.map(post => {
+            const plain = post.get({ plain: true });
+
+            return {
+                ...plain,
+                nombre: plain.User.nombre
+            };
+        })
+    };
+};
+
+export const setPostCommentsClosed = async (post_id, user_id, comentarios_cerrados) => {
+    return await Post.update(
+        { comentarios_cerrados },
+        {
+            where: {
+                id: post_id,
+                user_id
+            }
+        }
+    );
+};

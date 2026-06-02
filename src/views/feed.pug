@@ -83,7 +83,7 @@ html
        }
 
       .image-box {
-        position: relavite;
+        position: relative;
         width: 100%;
         margin-top: 10px;
       }
@@ -108,7 +108,20 @@ html
 
   body
 
-    h1 Feed de Publicaciones
+    h1= feedTitle || "Feed de Publicaciones"
+
+    p(style="text-align:center")
+      a(href="/posts/feed") Ver todo
+      |  | 
+      a(href="/posts/following") Usuarios que sigo
+      |  | 
+      a(href="/notifications") Notificaciones
+      |  | 
+      a(href="/collections") Colecciones
+      |  | 
+      a(href="/interests") Interesados
+      |  | 
+      a(href="/logout") Salir
 
     form(action="/posts/feed" method="GET")
       input(
@@ -142,11 +155,10 @@ html
               button(type="submit") Seguir
 
         .image-box
-            .image-box
-              img(src=`/uploads/${post.imagen}`)
+          img(src=`/uploads/${post.imagen}`)
 
-            if post.marca_agua
-              span.watermark= post.marca_agua
+          if post.marca_agua
+            span.watermark= post.marca_agua
 
         p= post.descripcion
 
@@ -211,31 +223,13 @@ html
 
             button(type="submit") Denunciar
 
-        h4 Comentarios
+        if post.isOwner
+          if post.comentarios_cerrados
+          p Los comentarios estan cerrados para esta publicacion
+        else
+          form(action="/posts/comment" method="POST")
+            input(type="hidden" name="post_id" value=post.id)
+            input(type="text" name="comentario" placeholder="Escribi un comentario")
+            button(type="submit") Comentar
 
-        if post.comments
 
-          each comment in post.comments
-
-            .comment
-
-              p
-                b #{comment.nombre}:
-                |  #{comment.comentario}
-         
-
-        form(action="/posts/comment" method="POST")
-
-          input(
-            type="hidden"
-            name="post_id"
-            value=post.id
-          )
-
-          input(
-            type="text"
-            name="comentario"
-            placeholder="Escribí un comentario"
-          )
-
-          button(type="submit") Comentar

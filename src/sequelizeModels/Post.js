@@ -34,6 +34,10 @@ const Post = sequelize.define("Post", {
     estado: {
         type: DataTypes.STRING(50),
         defaultValue: "activo"
+    },
+    comentarios_cerrados: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     tableName: "posts",

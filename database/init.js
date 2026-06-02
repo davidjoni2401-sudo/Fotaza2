@@ -1,12 +1,14 @@
+import bcrypt from "bcrypt";
 import sequelize from "../src/config/sequelize.js";
 import "../src/sequelizeModels/index.js";
+import { User } from "../src/sequelizeModels/index.js";
  
 async function initDB() {
   try {
     await sequelize.authenticate();
     console.log("Conexión a la base de datos establecida correctamente.");
  
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ alter: true });
     console.log("Tablas creadas/verificadas correctamente:");
     console.log("  ✓ users");
     console.log("  ✓ posts");
@@ -18,6 +20,7 @@ async function initDB() {
     console.log("  ✓ collection_posts");
     console.log("  ✓ interests");
     console.log("  ✓ post_reports");
+    console.log("  ? comment_reports");
  
     console.log("\nBase de datos inicializada correctamente.");
     process.exit(0);
@@ -28,3 +31,4 @@ async function initDB() {
 }
  
 initDB();
+

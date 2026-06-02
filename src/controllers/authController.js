@@ -71,3 +71,8 @@ export const login = async (req, res) => {
         res.send("Error login ❌")
     }
 }
+export const logout = (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/login");
+    });
+};

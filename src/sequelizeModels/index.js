@@ -8,6 +8,7 @@ import Collection from "./Collection.js";
 import CollectionPost from "./CollectionPost.js";
 import Interest from "./Interest.js";
 import PostReport from "./PostReport.js";
+import CommentReport from "./CommentReport.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -135,6 +136,22 @@ PostReport.belongsTo(Post, {
     foreignKey: "post_id"
 });
 
+User.hasMany(CommentReport, {
+    foreignKey: "user_id"
+});
+
+CommentReport.belongsTo(User, {
+    foreignKey: "user_id"
+});
+
+Comment.hasMany(CommentReport, {
+    foreignKey: "comment_id"
+});
+
+CommentReport.belongsTo(Comment, {
+    foreignKey: "comment_id"
+});
+
 export {
     User,
     Post,
@@ -145,5 +162,6 @@ export {
     Collection,
     CollectionPost,
     Interest,
-    PostReport
+    PostReport,
+    CommentReport
 };
