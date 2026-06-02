@@ -40,9 +40,6 @@ app.use(express.static("public"));
 
 
 app.get("/", (req, res) => {
-    if (req.session.user) {
-        return res.redirect("/posts/feed");
-    }
     res.redirect("/login")
 });
 
