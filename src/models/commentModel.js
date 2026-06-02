@@ -19,7 +19,7 @@ export const getCaommentsByPost = async (post_id) => {
             model: User,
             attributes: ["nombre"]
         }],
-        order: [["created_at", "ASC"]]
+        order: [["id", "ASC"]]
     });
 
     return {
