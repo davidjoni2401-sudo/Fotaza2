@@ -30,7 +30,7 @@ export const getAllPosts = async () => {
             model: User,
             attributes: ["nombre"]
         }],
-        order: [["created_at", "DESC"]]
+        order: [["id", "DESC"]]
     });
 
     return {
@@ -61,7 +61,7 @@ export const searchPosts = async (busqueda) => {
                 { "$User.nombre$": { [Op.iLike]: `%${busqueda}%` } }
             ]
         },
-        order: [["created_at", "DESC"]]
+        order: [["id", "DESC"]]
     });
 
     return {
