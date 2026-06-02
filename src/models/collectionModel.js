@@ -10,7 +10,7 @@ export const createCollection = async (user_id, nombre) => {
 export const getCollectionsByUser = async (user_id) => {
     const collections = await Collection.findAll({
         where: { user_id },
-        order: [["created_at", "DESC"]]
+        order: [["id", "DESC"]]
     });
 
     return {
@@ -44,7 +44,7 @@ export const getPostsByCollection = async (collection_id, user_id) => {
                 }]
             }
         ],
-        order: [["created_at", "DESC"]]
+        order: [["id", "DESC"]]
     });
 
     return {
