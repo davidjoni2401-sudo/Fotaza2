@@ -10,7 +10,6 @@ import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 
 import notificationRoutes from "./routes/notificationRoutes.js"
-import { error } from "console";
 
 import collectionRoutes from "./routes/collectionRoutes.js";
 import interestRoutes from "./routes/interestRoutes.js";
@@ -40,21 +39,19 @@ app.use(express.static("public"));
 app.use(express.static("public"));
 
 
-app.use("/", authRoutes);
-app.use("/posts", postRoutes);
-app.use("/notifications", notificationRoutes);
-
-app.use("/collections", collectionRoutes);
-app.use("/interests", interestRoutes);
-app.use("/reports", reportRoutes);
-
-
 app.get("/", (req, res) => {
     if (req.session.user) {
         return res.redirect("/posts/feed");
     }
     res.redirect("/login")
 });
+
+app.use("/", authRoutes);
+app.use("/posts", postRoutes);
+app.use("/notifications", notificationRoutes);
+app.use("/collections", collectionRoutes);
+app.use("/interests", interestRoutes);
+app.use("/reports", reportRoutes);
 
 sequelize.authenticate()
     .then(() => console.log("Sequelize conectado ✅"))
