@@ -1,7 +1,6 @@
-import bcrypt from "bcrypt";
 import sequelize from "../src/config/sequelize.js";
 import "../src/sequelizeModels/index.js";
-import { User } from "../src/sequelizeModels/index.js";
+
  
 async function initDB() {
   try {
@@ -20,7 +19,7 @@ async function initDB() {
     console.log("  ✓ collection_posts");
     console.log("  ✓ interests");
     console.log("  ✓ post_reports");
-    console.log("  ? comment_reports");
+    console.log("  ✓ comment_reports");
  
     console.log("\nBase de datos inicializada correctamente.");
     process.exit(0);
