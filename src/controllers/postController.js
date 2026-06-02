@@ -114,7 +114,7 @@ export const showFeed = async (req, res) => {
 
         console.log(error);
 
-        res.redirect("/posts/feed");
+        res.send("Error al cargar el feed: " + error.message);
     }
 }
 
