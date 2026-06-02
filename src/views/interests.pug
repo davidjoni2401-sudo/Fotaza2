@@ -1,19 +1,31 @@
-doctype html
-html
-  head
-    title Interesados
-  body
-    h1 Usuarios interesados
+extends layout
 
-    if interests.length === 0
-      p No hay usuarios interesados todavía
-    else
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-heart-fill.me-2
+    | Usuarios interesados en tus publicaciones
+
+  if interests.length === 0
+    .alert.alert-secondary
+      i.bi.bi-heart.me-2
+      | No hay usuarios interesados todavía
+  else
+    .row
       each interest in interests
-        div
-          h3= interest.post_titulo
-          img(src=`/uploads/${interest.post_imagen}` width="250")
-          p Interesado: #{interest.interesado_nombre}
-          p Email: #{interest.interesado_email}
-
-          if interest.mensaje
-            p Mensaje: #{interest.mensaje}
+        .col-md-6.mb-4
+          .card.card-custom.p-3
+            .row
+              .col-4
+                img.img-fluid.rounded(src=`/uploads/${interest.post_imagen}`)
+              .col-8
+                h5.text-accent= interest.post_titulo
+                p.mb-1
+                  i.bi.bi-person-fill.me-1
+                  b= interest.interesado_nombre
+                p.mb-1.small
+                  i.bi.bi-envelope-fill.me-1
+                  = interest.interesado_email
+                if interest.mensaje
+                  .alert.alert-dark.mt-2.p-2.small
+                    i.bi.bi-chat-quote-fill.me-1
+                    = interest.mensaje

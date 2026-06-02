@@ -1,235 +1,141 @@
-doctype html
-doctype html
-html
-  head
-    title Feed
+extends layout
 
-    style.
-      body {
-        background-color: #1e1e2f;
-        font-family: Arial, sans-serif;
-        color: white;
-        margin: 0;
-        padding: 20px;
-      }
+block content
+  h1.text-center.text-accent.mb-4
+    i.bi.bi-images.me-2
+    | Feed de Publicaciones
 
-      h1 {
-        text-align: center;
-        color: #00bfff;
-      }
+  form.mb-4(action="/posts/feed" method="GET")
+    .input-group
+      input.form-control(type="text" name="busqueda" placeholder="Buscar publicaciones...")
+      button.btn.btn-primary-custom(type="submit")
+        i.bi.bi-search.me-1
+        | Buscar
 
-      .post {
-        background-color: #2c2c3e;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px auto;
-        width: 400px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      }
+  each post in posts
+    .card.card-custom.mb-4.mx-auto(style="max-width: 600px")
+      .card-body
 
-      img {
-        width: 100%;
-        border-radius: 10px;
-        margin-top: 10px;
-      }
-
-      p {
-        margin-top: 10px;
-      }
-
-      h3 {
-        color: #00bfff;
-      }
-
-      h4 {
-        margin-top: 20px;
-        color: #00d4ff;
-      }
-
-      .comment {
-        background-color: #3a3a50;
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 8px;
-      }
-
-      input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 5px;
-        box-sizing: border-box;
-      }
-
-      button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        background-color: #00bfff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #009acd;
-      }
-
-      .search-form {
-        width: 400px;
-        margin: 0 auto 20px auto;
-       }
-
-      .image-box {
-        position: relative;
-        width: 100%;
-        margin-top: 10px;
-      }
-
-       .image-box img {
-        width: 100%;
-        border-radius: 10px;
-        display: block;
-      }
-
-      .watermark {
-        position: absolute;
-        right: 12px;
-        bottom: 12px;
-        color: white;
-        background: rgba(0, 0, 0, 0.45);
-        padding: 6px 10px;
-        border-radius: 5px;
-        font-weight: bold; 
-      }
-
-
-  body
-
-    h1= feedTitle || "Feed de Publicaciones"
-
-    p(style="text-align:center")
-      a(href="/posts/feed") Ver todo
-      |  | 
-      a(href="/posts/following") Usuarios que sigo
-      |  | 
-      a(href="/notifications") Notificaciones
-      |  | 
-      a(href="/collections") Colecciones
-      |  | 
-      a(href="/interests") Interesados
-      |  | 
-      a(href="/logout") Salir
-
-    form(action="/posts/feed" method="GET")
-      input(
-        type="text"
-        name="busqueda"
-        placeholder="Buscar publicaciones"
-      ) 
-      button(type="submit") Buscar 
-
-    each post in posts
-
-      .post
-
-        h3= post.nombre
-
-        h4= post.titulo 
-
-        p Seguidores: #{post.followersCount}
-        p Siguiendo: #{post.followingCount}
+        .d-flex.justify-content-between.align-items-center.mb-2
+          h5.card-title.text-accent.mb-0
+            i.bi.bi-person-circle.me-2
+            = post.nombre
+          .d-flex.gap-2
+            span.badge.bg-secondary
+              i.bi.bi-people-fill.me-1
+              | #{post.followersCount} seguidores
+            span.badge.bg-secondary
+              | #{post.followingCount} siguiendo
 
         if !post.isOwner
           if post.isFollowing
-            p Siguiendo a #{post.nombre}
-
             form(action="/posts/unfollow" method="POST")
               input(type="hidden" name="following_id" value=post.user_id)
-              button(type="submit") Dejar de seguir
+              button.btn.btn-sm.btn-outline-danger.mb-2(type="submit")
+                i.bi.bi-person-dash.me-1
+                | Dejar de seguir
           else
             form(action="/posts/follow" method="POST")
               input(type="hidden" name="following_id" value=post.user_id)
-              button(type="submit") Seguir
+              button.btn.btn-sm.btn-outline-info.mb-2(type="submit")
+                i.bi.bi-person-plus.me-1
+                | Seguir
 
-        .image-box
-          img(src=`/uploads/${post.imagen}`)
+        if post.titulo
+          h6.fw-bold= post.titulo
 
+        .position-relative.mb-3
+          img.img-fluid.rounded(src=`/uploads/${post.imagen}`)
           if post.marca_agua
-            span.watermark= post.marca_agua
+            span.position-absolute.bottom-0.end-0.m-2.badge.bg-dark.opacity-75
+              i.bi.bi-droplet-fill.me-1
+              = post.marca_agua
 
-        p= post.descripcion
+        if post.descripcion
+          p.card-text= post.descripcion
 
-        if post.etiquetas 
-          p Etiquetas: #{post.etiquetas}
+        .d-flex.gap-2.flex-wrap.mb-2
+          if post.etiquetas
+            span.badge.bg-info.text-dark
+              i.bi.bi-tags-fill.me-1
+              = post.etiquetas
+          if post.licencia === "con copyright"
+            span.badge.bg-warning.text-dark
+              i.bi.bi-c-circle-fill.me-1
+              | Con copyright
+          else
+            span.badge.bg-success
+              i.bi.bi-unlock-fill.me-1
+              | Sin copyright
 
-        p Licencia: #{post.licencia}
-
-        if post.marca_agua
-          p Marca de agua: #{post.marca_agua}
-
-        p Valoración: #{post.ratingPromedio} / 5 (#{post.ratingCantidad} votos)
+        .d-flex.align-items-center.mb-3
+          i.bi.bi-star-fill.text-warning.me-1
+          span #{post.ratingPromedio} / 5
+          span.text-muted.ms-2 (#{post.ratingCantidad} votos)
 
         if !post.isOwner
-          form(action="/posts/rate" method="POST")
+          form.d-flex.gap-2.mb-3(action="/posts/rate" method="POST")
             input(type="hidden" name="post_id" value=post.id)
-            select(name="valor")
+            select.form-select.form-select-sm(name="valor" style="width:80px")
               option(value="1") 1
               option(value="2") 2
               option(value="3") 3
               option(value="4") 4
               option(value="5") 5
-            button(type="submit") Valorar
-        else 
-          p No podes valorar tu propia publicacion
+            button.btn.btn-sm.btn-primary-custom(type="submit")
+              i.bi.bi-star.me-1
+              | Valorar
+        else
+          p.text-muted.small No podés valorar tu propia publicación
 
         if collections && collections.length > 0
-          form(action="/collections/save" method="POST")
+          form.d-flex.gap-2.mb-3(action="/collections/save" method="POST")
             input(type="hidden" name="post_id" value=post.id)
-
-            select(name="collection_id")
+            select.form-select.form-select-sm(name="collection_id")
               each collection in collections
                 option(value=collection.id)= collection.nombre
-
-            button(type="submit") Guardar en colección
-            
-        if !post.isOwner
-          form(action="/interests" method="POST")
-            input(type="hidden" name="post_id" value=post.id)
-            input(
-              type="text"
-              name="mensaje"
-              placeholder="Mensaje para el autor"
-             )
-            button(type="submit") Me interesa
+            button.btn.btn-sm.btn-outline-light(type="submit")
+              i.bi.bi-bookmark-plus.me-1
+              | Guardar
 
         if !post.isOwner
-          form(action="/reports/post" method="POST")
+          form.mb-2(action="/interests" method="POST")
+            .input-group.input-group-sm
+              input(type="hidden" name="post_id" value=post.id)
+              input.form-control(type="text" name="mensaje" placeholder="Mensaje para el autor...")
+              button.btn.btn-primary-custom(type="submit")
+                i.bi.bi-heart.me-1
+                | Me interesa
+
+        if !post.isOwner
+          form.mb-3(action="/reports/post" method="POST")
+            .input-group.input-group-sm
+              input(type="hidden" name="post_id" value=post.id)
+              select.form-select(name="motivo" style="max-width:180px")
+                option(value="contenido inapropiado") Contenido inapropiado
+                option(value="copyright") Copyright
+                option(value="spam") Spam
+                option(value="otro") Otro
+              input.form-control(type="text" name="descripcion" placeholder="Descripción...")
+              button.btn.btn-outline-danger(type="submit")
+                i.bi.bi-flag.me-1
+                | Denunciar
+
+        h6.text-accent
+          i.bi.bi-chat-dots-fill.me-1
+          | Comentarios
+
+        if post.comments
+          each comment in post.comments
+            .bg-dark.rounded.p-2.mb-2.small
+              b= comment.nombre
+              |  #{comment.comentario}
+
+        form(action="/posts/comment" method="POST")
+          .input-group.input-group-sm
             input(type="hidden" name="post_id" value=post.id)
-
-            select(name="motivo")
-              option(value="contenido inapropiado") Contenido inapropiado
-              option(value="copyright") Copyright
-              option(value="spam") Spam
-              option(value="otro") Otro
-
-            input(
-              type="text"
-              name="descripcion"
-              placeholder="Descripción de la denuncia"
-            )
-
-            button(type="submit") Denunciar
-
-        if post.isOwner
-          if post.comentarios_cerrados
-          p Los comentarios estan cerrados para esta publicacion
-        else
-          form(action="/posts/comment" method="POST")
-            input(type="hidden" name="post_id" value=post.id)
-            input(type="text" name="comentario" placeholder="Escribi un comentario")
-            button(type="submit") Comentar
+            input.form-control(type="text" name="comentario" placeholder="Escribí un comentario...")
+            button.btn.btn-primary-custom(type="submit")
+              i.bi.bi-send
 
 

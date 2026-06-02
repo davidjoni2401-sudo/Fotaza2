@@ -1,24 +1,30 @@
-doctype html
-html
-  head
-    title Notificaciones
-  body
-    h1 Notificaciones
+extends layout
 
-    if notifications.length === 0
-      p No tenés notificaciones
-    else
-      each notification in notifications
-        div
-          p
-            b= notification.from_nombre
-            |  #{notification.mensaje}
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-bell-fill.me-2
 
-          p Tipo: #{notification.tipo}
 
-          if notification.leida
-            p Leída
-          else
+  if notifications.length === 0
+    .alert.alert-secondary
+      i.bi.bi-bell-slash.me-2
+
+  else
+    each notification in notifications
+      .card.card-custom.mb-3.p-3
+        .d-flex.justify-content-between.align-items-start
+          div
+            p.mb-1
+              b= notification.from_nombre
+              |  #{notification.mensaje}
+            span.badge.bg-info.text-dark.me-2= notification.tipo
+            if notification.leida
+              span.badge.bg-secondary Leída
+            else
+              span.badge.bg-warning.text-dark No leída
+          if !notification.leida
             form(action="/notifications/read" method="POST")
               input(type="hidden" name="id" value=notification.id)
-              button(type="submit") Marcar como leída
+              button.btn.btn-sm.btn-outline-light(type="submit")
+                i.bi.bi-check-circle.me-1
+                               

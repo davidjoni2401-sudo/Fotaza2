@@ -1,22 +1,28 @@
-doctype html
-html
-  head
-    title Colecciones
-  body
-    h1 Mis colecciones
+extends layout
 
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-collection-fill.me-2 
+
+
+  .card.card-custom.p-4.mb-4
+    h5.mb-3 Crear nueva colección
     form(action="/collections" method="POST")
-      input(
-        type="text"
-        name="nombre"
-        placeholder="Nombre de la colección"
-      )
-      button(type="submit") Crear colección
+      .input-group
+        input.form-control(type="text" name="nombre" placeholder="Ej: Paisajes, Ideas, Inspiración..." required)
+        button.btn.btn-primary-custom(type="submit")
+          i.bi.bi-plus-lg.me-1
 
-    if collections.length === 0
-      p No tenés colecciones
-    else
+
+  if collections.length === 0
+    .alert.alert-secondary
+      i.bi.bi-collection.me-2
+      
+  else
+    .row
       each collection in collections
-        div
-          h3= collection.nombre
-          a(href=`/collections/${collection.id}`) Ver publicaciones
+        .col-md-4.mb-3
+          .card.card-custom.p-3
+            h5.text-accent= collection.nombre
+            a.btn.btn-sm.btn-outline-light.mt-2(href=`/collections/${collection.id}`)
+              i.bi.bi-eye.me-1

@@ -1,16 +1,26 @@
-doctype html
-html
-  head
-    title Publicaciones de colección
-  body
-    h1 Publicaciones guardadas
+extends layaut 
 
-    if posts.length === 0
-      p No hay publicaciones en esta colección
-    else
+block content 
+  h2.tex-accent.mb-4
+    i.bi.bi-images.me-2 
+
+
+  a.btn.btn-outline-light.mb-4(hert="/collections")
+    i.bi.bi-arrow-left.me-1
+
+
+  if  posts.length === 0
+     .alert.alert-secondary
+       i.bi.bi-inbox.me-2
+
+  else
+    .row
       each post in posts
-        div
-          h3= post.titulo
-          p Autor: #{post.autor}
-          img(src=`/uploads/${post.imagen}` width="300")
-          p= post.descripcion
+        .col-md-4.mb-4
+          .card.card-custom
+            img.car-img-top.rounded-top(src=`/uploads/${post.imagen}`)
+            .card-body
+              h5.card-title.text-accent= post.titulo
+              p.card-text.small.text-muted Autor: #{post.autor}
+              if  post.descripcion
+                 p.card-text.samll= post.descripcion

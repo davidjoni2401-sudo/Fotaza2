@@ -1,111 +1,42 @@
-doctype html
-html
-  head
-    title Crear Post
+extends layout
 
-    style.
-      body {
-        background-color: #1e1e2f;
-        font-family: Arial, sans-serif;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-      }
-
-      .container {
-        background-color: #2c2c3e;
-        padding: 30px;
-        border-radius: 12px;
-        width: 350px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      }
-
-      h1 {
-        text-align: center;
-        color: #00bfff;
-        margin-bottom: 20px;
-      }
-
-      input,
-      textarea {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 6px;
-        box-sizing: border-box;
-      }
-
-      textarea {
-        resize: none;
-        height: 100px;
-      }
-
-      button {
-        width: 100%;
-        padding: 12px;
-        margin-top: 15px;
-        background-color: #00bfff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 16px;
-      }
-
-      button:hover {
-        background-color: #009acd;
-      }
-
-  body
-  .container
-    h1 Nueva Publicación
-
-    form(action="/posts/create" method="POST" enctype="multipart/form-data")
-
-      input(
-        type="text"
-        name="titulo"
-        placeholder="Título de la publicación"
-      )
-
-      input(
-        type="file"
-        name="imagen"
-      )
-
-      textarea(name="descripcion" placeholder="Descripción")
-
-      input(
-        type="text"
-        name="etiquetas"
-        placeholder="Etiquetas separadas por coma"
-      )
-
-      select(name="licencia")
-        option(value="sin copyright") Sin copyright
-        option(value="con copyright") Con copyright
-
-      input(
-        type="text"
-        name="marca_agua"
-        placeholder="Texto de marca de agua"
-      )
-
-      script.
-        const licenciaSelect = document.querySelector('select[name="licencia"]');
-        const marcaAguaInput = document.querySelector('input[name="marca_agua"]');
-        marcaAguaInput.style.display = 'none';
-        licenciaSelect.addEventListener('change' , function(){
-          if (this.value === 'con copyright') {
-            marcaAguaInput.style.display = 'block';
-          } else {
-            marcaAguaInput.style.display = 'none';
-            marcaAguaInput.style.value = '';    
-          }
-        });
-
-      button(type="submit") Publicar
+block content
+  .row.justify-content-center
+    .col-md-6
+      .card.card-custom.p-4
+        h3.text-accent.text-center.mb-4
+          i.bi.bi-plus-circle-fill.me-2
+          | Nueva Publicación
+        form(action="/posts/create" method="POST" enctype="multipart/form-data")
+          .mb-3
+            label.form-label Título
+            input.form-control(type="text" name="titulo" placeholder="Título de la publicación")
+          .mb-3
+            label.form-label Imagen
+            input.form-control(type="file" name="imagen" required)
+          .mb-3
+            label.form-label Descripción (opcional)
+            textarea.form-control(name="descripcion" rows="3" placeholder="Descripción de la imagen...")
+          .mb-3
+            label.form-label Etiquetas
+            input.form-control(type="text" name="etiquetas" placeholder="naturaleza, viajes, arte...")
+          .mb-3
+            label.form-label Licencia
+            select.form-select(name="licencia" id="licenciaSelect")
+              option(value="sin copyright") Sin copyright
+              option(value="con copyright") Con copyright
+          .mb-3#marcaAguaDiv(style="display:none")
+            label.form-label Texto de marca de agua
+            input.form-control(type="text" name="marca_agua" placeholder="Ej: © Mi Nombre 2026")
+          button.btn.btn-primary-custom.w-100(type="submit")
+            i.bi.bi-cloud-upload-fill.me-2
+           
+        script.
+          const licenciaSelect = document.getElementById('licenciaSelect');
+          const marcaAguaDiv = document.getElementById('marcaAguaDiv');
+          licenciaSelect.addEventListener('change', function() {
+            marcaAguaDiv.style.display = this.value === 'con copyright' ? 'block' : 'none';
+            if (this.value !== 'con copyright') {
+              marcaAguaDiv.querySelector('input').value = '';
+            }
+          });

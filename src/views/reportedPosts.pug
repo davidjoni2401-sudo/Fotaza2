@@ -1,48 +1,43 @@
-doctype html
-html
-  head
-    title Denuncias
-  body
-    h1 Publicaciones denunciadas
+extends layout
 
-    if reports.length === 0
-      p No hay denuncias
-    else
-      each report in reports
-        div
-          h3= report.Post.titulo
-          p Autor: #{report.Post.User.nombre}
-          img(src=`/uploads/${report.Post.imagen}` width="250")
-          p Motivo: #{report.motivo}
-          p Descripción: #{report.descripcion}
-          p Denunciante: #{report.User.nombre}
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-flag-fill.me-2
 
-          form(action="/reports/dismiss" method="POST")
-            input(type="hidden" name="post_id" value=report.post_id)
-            button(type="submit") Desestimar denuncias
 
-          form(action="/reports/remove" method="POST")
-            input(type="hidden" name="post_id" value=report.post_id)
-            button(type="submit") Bajar publicación
-    h1 Comentarios denunciados
+  if reports.length === 0
+    .alert.alert-success
+      i.bi.bi-check-circle.me-2
 
-    if !commentReports || commentReports.length === 0
-      p No hay denuncias de comentarios
-    else
-      each report in commentReports
-        div
-          h3 Comentario denunciado
-          p Comentario: #{report.Comment.comentario}
-          p Autor comentario: #{report.Comment.User.nombre}
-          p Publicacion: #{report.Comment.Post.titulo}
-          p Motivo: #{report.motivo}
-          p Descripcion: #{report.descripcion}
-          p Denunciante: #{report.User.nombre}
-
-          form(action="/reports/comments/dismiss" method="POST")
-            input(type="hidden" name="comment_id" value=report.comment_id)
-            button(type="submit") Desestimar denuncia
-
-          form(action="/reports/comments/remove" method="POST")
-            input(type="hidden" name="comment_id" value=report.comment_id)
-            button(type="submit") Borrar comentario
+  else
+    each report in reports
+      .card.card-custom.mb-4.p-3
+        .row
+          .col-md-4
+            img.img-fluid.rounded(src=`/uploads/${report.Post.imagen}`)
+          .col-md-8
+            h5.text-accent= report.Post.titulo
+            p.mb-1
+              b Autor:
+              |  #{report.Post.User.nombre}
+            .alert.alert-warning.p-2.mt-2
+              p.mb-1
+                b Motivo:
+                |  #{report.motivo}
+              p.mb-1
+                b Descripción:
+                |  #{report.descripcion}
+              p.mb-0
+                b Denunciante:
+                |  #{report.User.nombre}
+            .d-flex.gap-2.mt-3
+              form(action="/reports/dismiss" method="POST")
+                input(type="hidden" name="post_id" value=report.post_id)
+                button.btn.btn-outline-success(type="submit")
+                  i.bi.bi-x-circle.me-1
+                                    
+              form(action="/reports/remove" method="POST")
+                input(type="hidden" name="post_id" value=report.post_id)
+                button.btn.btn-danger(type="submit")
+                  i.bi.bi-trash-fill.me-1
+                                    
