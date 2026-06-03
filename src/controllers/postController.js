@@ -77,7 +77,7 @@ export const createPost = async (req, res) => {
             marca_agua
         );
 
-        res.send("Post guardado en DB âœ…");
+        res.redirect("/posts/feed");
 
     } catch (error) {
 
@@ -184,7 +184,7 @@ export const addComment = async (req, res) => {
                 post.user_id,
                 user_id,
                 "comentario",
-                "comentó tu publicación"
+                "comentï¿½ tu publicaciï¿½n"
             );
         }
 
@@ -276,7 +276,7 @@ export const ratePost = async (req, res) => {
             post.user_id,
             user_id,
             "valoracion",
-            "valoró tu publicación"
+            "valorï¿½ tu publicaciï¿½n"
         );
 
         res.redirect("/posts/feed");
