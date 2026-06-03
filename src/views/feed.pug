@@ -52,7 +52,7 @@ block content
               = post.marca_agua
 
         if post.descripcion
-          p.card-text= post.descripcion
+          p.card-text-white = post.descripcion
 
         .d-flex.gap-2.flex-wrap.mb-2
           if post.etiquetas
@@ -111,7 +111,7 @@ block content
           form.mb-3(action="/reports/post" method="POST")
             .input-group.input-group-sm
               input(type="hidden" name="post_id" value=post.id)
-              select.form-select(name="motivo" style="max-width:180px")
+              select.form-select(name="motivo")
                 option(value="contenido inapropiado") Contenido inapropiado
                 option(value="copyright") Copyright
                 option(value="spam") Spam
