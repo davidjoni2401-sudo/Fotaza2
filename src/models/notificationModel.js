@@ -22,7 +22,7 @@ export const getNotificationsByUser = async (user_id) => {
             as: "fromUser",
             attributes: ["nombre"]
         }],
-        order: [["created_at", "DESC"]]
+        order: [["id", "DESC"]]
     });
 
     return {
