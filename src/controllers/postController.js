@@ -184,7 +184,7 @@ export const addComment = async (req, res) => {
                 post.user_id,
                 user_id,
                 "comentario",
-                "coment� tu publicaci�n"
+                "comento tu publicacion"
             );
         }
 
@@ -276,7 +276,7 @@ export const ratePost = async (req, res) => {
             post.user_id,
             user_id,
             "valoracion",
-            "valor� tu publicaci�n"
+            "valoro tu publicacion"
         );
 
         res.redirect("/posts/feed");
