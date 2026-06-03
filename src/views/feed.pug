@@ -45,7 +45,7 @@ block content
           h6.fw-bold= post.titulo
 
         .position-relative.mb-3
-          img.img-fluid.rounded(src=`/uploads/${post.imagen}`)
+          img.img-fluid.rounded(src=post.imagen)
           if post.marca_agua
             span.position-absolute.bottom-0.end-0.m-2.badge.bg-dark.opacity-75
               i.bi.bi-droplet-fill.me-1

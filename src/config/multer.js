@@ -1,15 +1,22 @@
 import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import dotenv from "dotenv";
+dotenv.config();
 
-const storage = multer.diskStorage({
 
-    destination: (req, file, cb) => {
+cloudinary.config ({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
-        cb(null, "public/uploads");
-    },
+const storage = new CloudinaryStorage({
 
-    filename: (req, file, cb) => {
-
-        cb(null, Date.now() + "-" + file.originalname);
+    cloudinary,
+    params: {
+        folder: "fotaza2",
+        allowed_formats: ["jpg", "jpeg", "png", "gif", "webp"]
     }
 });
 

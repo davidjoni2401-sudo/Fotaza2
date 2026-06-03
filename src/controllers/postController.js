@@ -61,7 +61,7 @@ export const createPost = async (req, res) => {
 
     try {
 
-        const imagen = req.file.filename;
+        const imagen = req.file.path;
 
         const { titulo, descripcion, etiquetas, licencia, marca_agua } = req.body;
 
