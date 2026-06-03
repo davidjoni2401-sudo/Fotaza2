@@ -17,7 +17,7 @@ export const register = async (req, res) => {
         await createUser(nombre, email, hashedPassword);
 
 
-        res.send("Usuario registrado ✅");
+        res.redirect("/login");
 
     } catch (error) {
         console.log(error);
