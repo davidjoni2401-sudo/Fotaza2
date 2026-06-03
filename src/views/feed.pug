@@ -17,14 +17,14 @@ block content
       .card-body
 
         .d-flex.justify-content-between.align-items-center.mb-2
-          h5.card-title.text-accent.mb-0
+          h5.card-title.text-accent.mb-0(style="color:#00bfff")
             i.bi.bi-person-circle.me-2
             = post.nombre
           .d-flex.gap-2
-            span.badge.bg-secondary
+            span.badge.bg-info.text-dark
               i.bi.bi-people-fill.me-1
               | #{post.followersCount} seguidores
-            span.badge.bg-secondary
+            span.badge.bg-info.text-dark
               | #{post.followingCount} siguiendo
 
         if !post.isOwner
@@ -42,7 +42,7 @@ block content
                 | Seguir
 
         if post.titulo
-          h6.fw-bold= post.titulo
+          h6.fw-bold(style="color:#00bfff")= post.titulo
 
         .position-relative.mb-3
           img.img-fluid.rounded(src=post.imagen)
