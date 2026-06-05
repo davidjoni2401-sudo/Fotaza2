@@ -41,21 +41,23 @@ html(lang="es")
       }
       .btn-accent:hover { background-color: #009acd; color: white; }
       .brand { color: #00bfff; font-size: 2rem; font-weight: bold; }
+      .login-accent { color: #00bfff !important; }
   body
     .card.p-4(style="width: 360px")
       .text-center.mb-4
         i.bi.bi-camera-fill(style="font-size:2.5rem;color:#00bfff")
         h2.brand Fotaza2
-        p.text-muted Iniciá sesión para continuar
+        p.login-accent Iniciá sesión para continuar
       form(action="/login" method="POST")
         .mb-3
-          label.form-label Email
+          label.form-label.login-accent Email
           input.form-control(type="email" name="email" placeholder="tu@email.com" required)
         .mb-3
-          label.form-label Contraseña
+          label.form-label.login-accent Contraseña
           input.form-control(type="password" name="password" placeholder="••••••••" required)
         button.btn.btn-accent.mb-3(type="submit") Iniciar Sesión
         .text-center
-          span.text-muted ¿No tenés cuenta?
+          span.login-accent ¿No tenés cuenta?
           a.ms-1(href="/register" style="color:#00bfff") Registrate
     script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+
