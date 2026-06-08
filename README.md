@@ -88,6 +88,11 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 | Daiana   | narutoluffyichigo95@gmail.com  | 3456         | usuario                  |
 | Elizabet | david@gmail.com                | 12345        | usuario                  |
 | Cecilia  | joni2401@gmail.com             | 1234         | usuario                  |
+
+---
+
+## Usuario de Validador
+
 | Validador| validador@fotaza.com           | validador123 | validador de contenidos  |
 
 > **Nota:** Para probar interacciones entre usuarios (seguir, comentar, valorizar, denunciar) se recomienda iniciar sesión con dos usuarios distintos en navegadores o perfiles diferentes.
