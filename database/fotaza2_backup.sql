@@ -779,11 +779,11 @@ COPY public.ratings (id, user_id, post_id, valor) FROM stdin;
 --
 
 COPY public.users (id, nombre, email, password, foto_perfil, estado, rol) FROM stdin;
-1	Jonatan	davi_joni9514@hotmail.com	$2b$10$macdvvlQYR66f5mCVFafKecnWUOv7DBPGoKRC3A6ZT3oAXM5ycv7O	\N	activo	usuario
-2	Elizabet	david.joni2401@gmail.com	$2b$10$GOhi.hx5D0fHt/fFXPyiVOZqpiBeRlh03I/w3mulcXKpQnmgzx/.e	\N	activo	usuario
-7	daiana	narutoluffyichigo95@gmail.com	$2b$10$qPfGJKDe7MB.qHY3Lyvp0uscwohENfzFV1.KGyYytFJEGU89VqOyC	\N	activo	usuario
-9	Elizabet	david@gmail.com	$2b$10$o5FYwnd8pUNRPZ.WbDZY3ODs3n6PgC1ngBDBWhXUOtEOe9ekc1v9C	\N	activo	usuario
-11	Cecilia	joni2401@gmail.com	$2b$10$buAmUuKY9W8Kkbrg.EprK.8HqjOTBoJ0Q4UBqiXN7n/DOU0G17Dsu	\N	activo	usuario
+1	Jonatan	jonatan@fotaza.test	$2b$10$macdvvlQYR66f5mCVFafKecnWUOv7DBPGoKRC3A6ZT3oAXM5ycv7O	\N	activo	usuario
+2	Elizabet	eli79@fotaza.com	$2b$10$GOhi.hx5D0fHt/fFXPyiVOZqpiBeRlh03I/w3mulcXKpQnmgzx/.e	\N	activo	usuario
+7	daiana	dai76@fotaza.com	$2b$10$qPfGJKDe7MB.qHY3Lyvp0uscwohENfzFV1.KGyYytFJEGU89VqOyC	\N	activo	usuario
+9	Elizabet	david@fotaza.com	$2b$10$o5FYwnd8pUNRPZ.WbDZY3ODs3n6PgC1ngBDBWhXUOtEOe9ekc1v9C	\N	activo	usuario
+11	Cecilia	joni2401@fotaza.com	$2b$10$buAmUuKY9W8Kkbrg.EprK.8HqjOTBoJ0Q4UBqiXN7n/DOU0G17Dsu	\N	activo	usuario
 12	Validador	validador@fotaza.com	$2b$10$188O6EcrTa6yr4DPvcqCme6yi.mDF9nWdIsdXUjYp6Ht79NMcvpLa	\N	activo	validador
 \.
 
