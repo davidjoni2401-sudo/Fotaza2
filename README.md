@@ -83,11 +83,11 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 
 | Nombre   | Email                          | Contraseña   | Rol                      |
 |----------|--------------------------------|--------------|--------------------------|
-| Jonatan  | davi_joni9514@hotmail.com      | 1234         | usuario                  |
-| Elizabet | david.joni2401@gmail.com       | 4321         | usuario                  |
-| Daiana   | narutoluffyichigo95@gmail.com  | 3456         | usuario                  |
-| Elizabet | david@gmail.com                | 12345        | usuario                  |
-| Cecilia  | joni2401@gmail.com             | 1234         | usuario                  |
+| Jonatan  | jonatan@fotaza.test            | 1234         | usuario                  |
+| Elizabet | eli79@fotaza.com               | 4321         | usuario                  |
+| Daiana   | dai76@fotaza.com               | 3456         | usuario                  |
+| Elizabet | david@fotaza.com               | 12345        | usuario                  |
+| Cecilia  | joni2401@fotaza.com            | 1234         | usuario                  |
 
 ---
 
