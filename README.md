@@ -127,8 +127,11 @@ Las imágenes que aparecen en la home se ordenan por un puntaje calculado de la 
 
 ```
 Fotaza2/
-├── database/
-│   └── init.js              # Script de inicialización de tablas
+── database/
+│   ├── fotaza2_backup.sql   # Copia completa para restaurar la base de datos
+│   ├── init.js              # Inicialización de tablas mediante Sequelize
+│   ├── schema.sql           # Creación de tablas, relaciones e índices
+│   └── seed.sql             # Datos de ejemplo para probar la aplicación
 ├── public/
 │   └── uploads/             # Imágenes subidas por usuarios
 ├── src/
