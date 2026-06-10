@@ -17,7 +17,7 @@ export const register = async (req, res) => {
         await createUser(nombre, email, hashedPassword);
 
 
-        res.redirect("/login");
+        res.redirect("/login?registered=1");
 
     } catch (error) {
         console.log(error);
@@ -30,7 +30,9 @@ export const register = async (req, res) => {
 };
 
 export const showLogin = (req, res) => {
-    res.render("login");
+    res.render("login", {
+        registrationSuccess: req.query.registered === "1"
+    });
 };
 
 export const login = async (req, res) => {

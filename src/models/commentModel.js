@@ -33,3 +33,24 @@ export const getCaommentsByPost = async (post_id) => {
         })
     };
 };
+
+export const updateOwnComment = async (comment_id, user_id, comentario) => {
+    return await Comment.update(
+        { comentario },
+        {
+            where: {
+                id: comment_id,
+                user_id
+            }
+        }
+    );
+};
+
+export const deleteOwnComment = async (comment_id, user_id) => {
+    return await Comment.destroy({
+        where: {
+            id: comment_id,
+            user_id
+        }
+    });
+};

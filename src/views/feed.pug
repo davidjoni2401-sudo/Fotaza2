@@ -7,7 +7,7 @@ block content
 
   form.mb-4(action="/posts/feed" method="GET")
     .input-group
-      input.form-control(type="text" name="busqueda" placeholder="Buscar publicaciones...")
+      input.form-control(type="text" name="busqueda" value=busqueda placeholder="Buscar por título, descripción, etiqueta o usuario...")
       button.btn.btn-primary-custom(type="submit")
         i.bi.bi-search.me-1
         | Buscar
@@ -128,9 +128,33 @@ block content
         if post.comments
           each comment in post.comments
             .bg-dark.rounded.p-2.mb-2.small.text-white
-              p.mb-2
-                b= comment.nombre
-                |  #{comment.comentario}
+              .d-flex.align-items-start.justify-content-between.gap-2.mb-2
+                p.mb-0.flex-grow-1
+                  b= comment.nombre
+                  |  #{comment.comentario}
+                if comment.isOwner
+                  .d-flex.gap-1.flex-shrink-0
+                    button.btn.btn-sm.btn-outline-info(
+                      type="button"
+                      title="Editar comentario"
+                      aria-label="Editar comentario"
+                      data-bs-toggle="collapse"
+                      data-bs-target=`#edit-comment-${comment.id}`
+                      aria-controls=`edit-comment-${comment.id}`
+                    )
+                      i.bi.bi-pencil-square
+                    form(action="/posts/comment/delete" method="POST" onsubmit="return confirm('¿Eliminar este comentario?')")
+                      input(type="hidden" name="comment_id" value=comment.id)
+                      button.btn.btn-sm.btn-outline-danger(type="submit" title="Eliminar comentario" aria-label="Eliminar comentario")
+                        i.bi.bi-trash
+              if comment.isOwner
+                .collapse.mb-2(id=`edit-comment-${comment.id}`)
+                  form(action="/posts/comment/edit" method="POST")
+                    input(type="hidden" name="comment_id" value=comment.id)
+                    .input-group.input-group-sm
+                      input.form-control(type="text" name="comentario" value=comment.comentario required)
+                      button.btn.btn-primary-custom(type="submit" title="Guardar comentario" aria-label="Guardar comentario")
+                        i.bi.bi-check-lg
               form(action="/reports/comment" method="POST")
                 input(type="hidden" name="comment_id" value=comment.id)
                 .input-group.input-group-sm

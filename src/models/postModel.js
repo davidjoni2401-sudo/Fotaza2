@@ -46,6 +46,9 @@ export const getAllPosts = async () => {
 };
 
 export const searchPosts = async (busqueda) => {
+    const termino = busqueda.trim();
+    const patron = `%${termino}%`;
+
     const posts = await Post.findAll({
         include: [{
             model: User,
@@ -55,10 +58,10 @@ export const searchPosts = async (busqueda) => {
         where: {
             estado: "activo",
             [Op.or]: [
-                { descripcion: { [Op.iLike]: `%${busqueda}%` } },
-                { titulo: { [Op.iLike]: `%${busqueda}%` } },
-                { etiquetas: { [Op.iLike]: `%${busqueda}%` } },
-                { "$User.nombre$": { [Op.iLike]: `%${busqueda}%` } }
+                { descripcion: { [Op.iLike]: patron } },
+                { titulo: { [Op.iLike]: patron } },
+                { etiquetas: { [Op.iLike]: patron } },
+                { "$User.nombre$": { [Op.iLike]: patron } }
             ]
         },
         order: [["id", "DESC"]]

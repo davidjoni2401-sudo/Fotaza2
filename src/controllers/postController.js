@@ -1,5 +1,10 @@
 import { createPostModel, getAllPosts, searchPosts, getPostById, getPostsByUserIds, setPostCommentsClosed } from "../models/postModel.js";
-import { createComment, getCaommentsByPost } from "../models/commentModel.js";
+import {
+    createComment,
+    getCaommentsByPost,
+    updateOwnComment,
+    deleteOwnComment
+} from "../models/commentModel.js";
 import {
     followUser,
     unfollowUser,
@@ -17,6 +22,9 @@ const hydratePosts = async (posts, req) => {
     for (const post of posts) {
         const commentsResult = await getCaommentsByPost(post.id);
         post.comments = commentsResult.rows;
+        post.comments.forEach(comment => {
+            comment.isOwner = req.session.user?.id === comment.user_id;
+        });
 
         if (req.session.user) {
             const followingResult = await isFollowing(
@@ -91,7 +99,7 @@ export const showFeed = async (req, res) => {
 
     try {
 
-        const { busqueda } = req.query;
+        const busqueda = req.query.busqueda?.trim() || "";
 
         let result;
 
@@ -109,6 +117,9 @@ export const showFeed = async (req, res) => {
                 await getCaommentsByPost(post.id);
 
             post.comments = commentsResult.rows;
+            post.comments.forEach(comment => {
+                comment.isOwner = req.session.user?.id === comment.user_id;
+            });
 
             if (req.session.user) {
 
@@ -149,7 +160,7 @@ export const showFeed = async (req, res) => {
             collections = collectionsResult.rows;
         }
 
-        res.render("feed", { posts, collections });
+        res.render("feed", { posts, collections, busqueda });
 
     } catch (error) {
 
@@ -197,6 +208,37 @@ export const addComment = async (req, res) => {
         res.send("Error al comentar");
     }
 }
+
+export const editComment = async (req, res) => {
+    try {
+        const user_id = req.session.user.id;
+        const { comment_id, comentario } = req.body;
+        const cleanComment = comentario?.trim();
+
+        if (!cleanComment) {
+            return res.redirect("/posts/feed");
+        }
+
+        await updateOwnComment(comment_id, user_id, cleanComment);
+        res.redirect("/posts/feed");
+    } catch (error) {
+        console.log(error);
+        res.redirect("/posts/feed");
+    }
+};
+
+export const deleteComment = async (req, res) => {
+    try {
+        const user_id = req.session.user.id;
+        const { comment_id } = req.body;
+
+        await deleteOwnComment(comment_id, user_id);
+        res.redirect("/posts/feed");
+    } catch (error) {
+        console.log(error);
+        res.redirect("/posts/feed");
+    }
+};
 
 export const follow = async (req, res) => {
 

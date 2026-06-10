@@ -48,6 +48,10 @@ html(lang="es")
         i.bi.bi-camera-fill(style="font-size:2.5rem;color:#00bfff")
         h2.brand Fotaza2
         p.login-accent Iniciá sesión para continuar
+      if registrationSuccess
+        .alert.alert-success.text-center(role="alert")
+          i.bi.bi-check-circle-fill.me-2
+          | Registro exitoso. Ya podés iniciar sesión.
       form(action="/login" method="POST")
         .mb-3
           label.form-label.login-accent Email
