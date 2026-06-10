@@ -107,6 +107,11 @@ html(lang="es")
               a.nav-link(href="/interests")
                 i.bi.bi-heart-fill.me-1
 
+            if sessionUser && sessionUser.rol === "validador"
+              li.nav-item
+                a.nav-link(href="/reports" title="Panel de denuncias" aria-label="Panel de denuncias")
+                  i.bi.bi-flag-fill.me-1
+
             li.nav-item
               a.nav-link(href="/logout")
                 i.bi.bi-box-arrow-right.me-1

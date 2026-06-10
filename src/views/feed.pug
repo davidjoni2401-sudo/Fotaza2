@@ -1,9 +1,9 @@
-extends layout
+﻿extends layout
 
 block content
   h1.text-center.text-accent.mb-4(style="color:#00bfff")
     i.bi.bi-images.me-2
-    | Feed de Publicaciones
+    | Publicaciones
 
   form.mb-4(action="/posts/feed" method="GET")
     .input-group
@@ -86,7 +86,7 @@ block content
               i.bi.bi-star.me-1
               | Valorar
         else
-          p.text-muted.small No podés valorar tu propia publicación
+          p.text-muted.small No podes valorar tu propia publicacion
 
         if collections && collections.length > 0
           form.d-flex.gap-2.mb-3(action="/collections/save" method="POST")
@@ -127,15 +127,25 @@ block content
 
         if post.comments
           each comment in post.comments
-            .bg-dark.rounded.p-2.mb-2.small.text-white 
-              b= comment.nombre
-              |  #{comment.comentario}
+            .bg-dark.rounded.p-2.mb-2.small.text-white
+              p.mb-2
+                b= comment.nombre
+                |  #{comment.comentario}
+              form(action="/reports/comment" method="POST")
+                input(type="hidden" name="comment_id" value=comment.id)
+                .input-group.input-group-sm
+                  select.form-select(name="motivo" aria-label="Motivo de denuncia")
+                    option(value="contenido inapropiado") Contenido inapropiado
+                    option(value="acoso") Acoso
+                    option(value="spam") Spam
+                    option(value="otro") Otro
+                  input.form-control(type="text" name="descripcion" placeholder="Descripción...")
+                  button.btn.btn-outline-danger(type="submit" title="Denunciar comentario" aria-label="Denunciar comentario")
+                    i.bi.bi-flag
 
         form(action="/posts/comment" method="POST")
           .input-group.input-group-sm
             input(type="hidden" name="post_id" value=post.id)
-            input.form-control(type="text" name="comentario" placeholder="Escribí un comentario...")
+            input.form-control(type="text" name="comentario" placeholder="Escriba un comentario...")
             button.btn.btn-primary-custom(type="submit")
               i.bi.bi-send
-
-

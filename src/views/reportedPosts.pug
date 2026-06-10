@@ -1,9 +1,11 @@
-extends layout
+﻿extends layout
 
 block content
   h2.text-accent.mb-4
     i.bi.bi-flag-fill.me-2
+    | Panel de denuncias
 
+  h4.text-accent.mb-3 Denuncias de publicaciones
 
   if reports.length === 0
     .alert.alert-success
@@ -40,6 +42,46 @@ block content
                 input(type="hidden" name="post_id" value=report.post_id)
                 button.btn.btn-danger(type="submit")
                   i.bi.bi-trash-fill.me-1
-                                    
+  hr.my-5
+  h4.text-accent.mb-3 Denuncias de comentarios
 
+  if !commentReports || commentReports.length === 0
+    .alert.alert-success
+      i.bi.bi-check-circle.me-2
+      | No hay comentarios denunciados.
+  else
+    each report in commentReports
+      .card.card-custom.mb-4.p-3
+        h5.text-accent
+          i.bi.bi-chat-left-text-fill.me-2
+          | Comentario denunciado
+        p.mb-1
+          b Publicación:
+          |  #{report.Comment.Post.titulo || 'Sin título'}
+        p.mb-1
+          b Autor del comentario:
+          |  #{report.Comment.User.nombre}
+        .bg-dark.rounded.p-3.my-2
+          p.mb-0= report.Comment.comentario
+        .alert.alert-warning.report-alert.p-2.mt-2
+          p.mb-1
+            b Motivo:
+            |  #{report.motivo}
+          p.mb-1
+            b Descripción:
+            |  #{report.descripcion || 'Sin descripción'}
+          p.mb-0
+            b Denunciante:
+            |  #{report.User.nombre}
+        .d-flex.gap-2.mt-3
+          form(action="/reports/comments/dismiss" method="POST")
+            input(type="hidden" name="comment_id" value=report.comment_id)
+            button.btn.btn-outline-success(type="submit" title="Desestimar denuncia")
+              i.bi.bi-x-circle.me-1
+              | Desestimar
+          form(action="/reports/comments/remove" method="POST")
+            input(type="hidden" name="comment_id" value=report.comment_id)
+            button.btn.btn-danger(type="submit" title="Eliminar comentario")
+              i.bi.bi-trash-fill.me-1
+              | Eliminar comentario
 
