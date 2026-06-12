@@ -104,10 +104,17 @@ app.use((req, res, next) => {
     }
 
     const origin = req.get("origin");
-    const ownOrigin = `${req.protocol}://${req.get("host")}`;
 
-    if (origin && origin !== ownOrigin) {
-        return res.status(403).send("Solicitud rechazada.");
+    if (origin) {
+        try {
+            const originHost = new URL(origin).host;
+
+            if (originHost !== req.get("host")) {
+                return res.status(403).send("Solicitud rechazada.");
+            }
+        } catch {
+            return res.status(403).send("Solicitud rechazada.");
+        }
     }
 
     next();
