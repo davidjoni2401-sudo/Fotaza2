@@ -11,10 +11,28 @@ import {
     removeComment
 } from "../models/reportModel.js";
 
+const validReportReasons = new Set([
+    "contenido inapropiado",
+    "copyright",
+    "acoso",
+    "spam",
+    "otro"
+]);
+
+const validateReport = (motivo, descripcion) => {
+    return validReportReasons.has(motivo) &&
+        (!descripcion || descripcion.length <= 1000);
+};
+
 export const reportPost = async (req, res) => {
     try {
         const user_id = req.session.user.id;
-        const { post_id, motivo, descripcion } = req.body;
+        const { post_id, motivo } = req.body;
+        const descripcion = req.body.descripcion?.trim() || null;
+
+        if (!validateReport(motivo, descripcion)) {
+            return res.status(400).send("Los datos de la denuncia son inválidos.");
+        }
 
         await createPostReport(
             user_id,
@@ -83,7 +101,12 @@ export const removeReportedPost = async (req, res) => {
 export const reportComment = async (req, res) => {
     try {
         const user_id = req.session.user.id;
-        const { comment_id, motivo, descripcion } = req.body;
+        const { comment_id, motivo } = req.body;
+        const descripcion = req.body.descripcion?.trim() || null;
+
+        if (!validateReport(motivo, descripcion)) {
+            return res.status(400).send("Los datos de la denuncia son inválidos.");
+        }
 
         await createCommentReport(
             user_id,

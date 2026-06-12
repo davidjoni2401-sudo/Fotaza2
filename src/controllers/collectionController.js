@@ -24,7 +24,11 @@ export const showCollections = async (req, res) => {
 export const storeCollection = async (req, res) => {
     try {
         const user_id = req.session.user.id;
-        const { nombre } = req.body;
+        const nombre = req.body.nombre?.trim();
+
+        if (!nombre || nombre.length > 100) {
+            return res.status(400).send("El nombre de la colección es inválido.");
+        }
 
         await createCollection(user_id, nombre);
 
@@ -38,9 +42,10 @@ export const storeCollection = async (req, res) => {
 
 export const savePostInCollection = async (req, res) => {
     try {
+        const user_id = req.session.user.id;
         const { collection_id, post_id } = req.body;
 
-        await addPostToCollection(collection_id, post_id);
+        await addPostToCollection(collection_id, post_id, user_id);
 
         res.redirect("/posts/feed");
 
@@ -65,4 +70,4 @@ export const showCollectionPosts = async (req, res) => {
         console.log(error);
         res.send("Error al cargar publicaciones de la colección ❌");
     }
-}; 
+};
