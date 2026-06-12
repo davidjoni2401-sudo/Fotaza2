@@ -5,12 +5,30 @@ block content
     i.bi.bi-images.me-2
     | Publicaciones
 
-  form.mb-4(action="/posts/feed" method="GET")
-    .input-group
-      input.form-control(type="text" name="busqueda" value=busqueda placeholder="Buscar por título, descripción, etiqueta o usuario...")
-      button.btn.btn-primary-custom(type="submit")
-        i.bi.bi-search.me-1
-        | Buscar
+  form.card.card-custom.p-3.mb-4(action="/posts/feed" method="GET")
+    .row.g-2
+      .col-lg-5
+        input.form-control(type="text" name="busqueda" value=busqueda placeholder="Buscar por título, descripción, etiqueta o usuario...")
+      .col-sm-4.col-lg-2
+        select.form-select(name="licencia" disabled=!sessionUser)
+          option(value="" selected=!filters.licencia) Todas las licencias
+          option(value="sin copyright" selected=filters.licencia === "sin copyright") Sin copyright
+          option(value="con copyright" selected=filters.licencia === "con copyright") Con copyright
+      .col-sm-4.col-lg-2
+        select.form-select(name="valoracionMinima")
+          option(value="0" selected=filters.valoracionMinima === 0) Cualquier valoración
+          option(value="3" selected=filters.valoracionMinima === 3) 3 estrellas o más
+          option(value="4" selected=filters.valoracionMinima === 4) 4 estrellas o más
+      .col-sm-4.col-lg-2
+        select.form-select(name="orden")
+          option(value="destacadas" selected=filters.orden === "destacadas") Destacadas
+          option(value="recientes" selected=filters.orden === "recientes") Más recientes
+          option(value="valoradas" selected=filters.orden === "valoradas") Mejor valoradas
+      .col-lg-1.d-grid
+        button.btn.btn-primary-custom(type="submit" title="Buscar" aria-label="Buscar")
+          i.bi.bi-search
+    if !sessionUser
+      small.text-muted.mt-2 El contenido con copyright requiere iniciar sesión.
 
   each post in posts
     .card.card-custom.mb-4.mx-auto(style="max-width: 600px")
@@ -18,8 +36,9 @@ block content
 
         .d-flex.justify-content-between.align-items-center.mb-2
           h5.card-title.text-accent.mb-0(style="color:#00bfff")
-            i.bi.bi-person-circle.me-2
-            = post.nombre
+            a.text-accent.text-decoration-none(href=`/users/${post.user_id}`)
+              i.bi.bi-person-circle.me-2
+              = post.nombre
           .d-flex.gap-2
             span.badge.bg-info.text-dark
               i.bi.bi-people-fill.me-1
@@ -27,7 +46,7 @@ block content
             span.badge.bg-info.text-dark
               | #{post.followingCount} siguiendo
 
-        if !post.isOwner
+        if sessionUser && !post.isOwner
           if post.isFollowing
             form(action="/posts/unfollow" method="POST")
               input(type="hidden" name="following_id" value=post.user_id)
@@ -73,7 +92,7 @@ block content
           span #{post.ratingPromedio} / 5
           span.text-muted.ms-2 (#{post.ratingCantidad} votos)
 
-        if !post.isOwner
+        if sessionUser && !post.isOwner
           form.d-flex.gap-2.mb-3(action="/posts/rate" method="POST")
             input(type="hidden" name="post_id" value=post.id)
             select.form-select.form-select-sm(name="valor" style="width:80px")
@@ -85,7 +104,7 @@ block content
             button.btn.btn-sm.btn-primary-custom(type="submit")
               i.bi.bi-star.me-1
               | Valorar
-        else
+        else if sessionUser
           p.text-muted.small No podes valorar tu propia publicacion
 
         if collections && collections.length > 0
@@ -98,7 +117,7 @@ block content
               i.bi.bi-bookmark-plus.me-1
               | Guardar
 
-        if !post.isOwner
+        if sessionUser && !post.isOwner
           form.mb-2(action="/interests" method="POST")
             .input-group.input-group-sm
               input(type="hidden" name="post_id" value=post.id)
@@ -107,7 +126,7 @@ block content
                 i.bi.bi-heart.me-1
                 | Me interesa
 
-        if !post.isOwner
+        if sessionUser && !post.isOwner
           form.mb-3(action="/reports/post" method="POST")
             .input-group.input-group-sm
               input(type="hidden" name="post_id" value=post.id)
@@ -155,21 +174,23 @@ block content
                       input.form-control(type="text" name="comentario" value=comment.comentario required)
                       button.btn.btn-primary-custom(type="submit" title="Guardar comentario" aria-label="Guardar comentario")
                         i.bi.bi-check-lg
-              form(action="/reports/comment" method="POST")
-                input(type="hidden" name="comment_id" value=comment.id)
-                .input-group.input-group-sm
-                  select.form-select(name="motivo" aria-label="Motivo de denuncia")
-                    option(value="contenido inapropiado") Contenido inapropiado
-                    option(value="acoso") Acoso
-                    option(value="spam") Spam
-                    option(value="otro") Otro
-                  input.form-control(type="text" name="descripcion" placeholder="Descripción...")
-                  button.btn.btn-outline-danger(type="submit" title="Denunciar comentario" aria-label="Denunciar comentario")
-                    i.bi.bi-flag
+              if sessionUser && !comment.isOwner
+                form(action="/reports/comment" method="POST")
+                  input(type="hidden" name="comment_id" value=comment.id)
+                  .input-group.input-group-sm
+                    select.form-select(name="motivo" aria-label="Motivo de denuncia")
+                      option(value="contenido inapropiado") Contenido inapropiado
+                      option(value="acoso") Acoso
+                      option(value="spam") Spam
+                      option(value="otro") Otro
+                    input.form-control(type="text" name="descripcion" placeholder="Descripción...")
+                    button.btn.btn-outline-danger(type="submit" title="Denunciar comentario" aria-label="Denunciar comentario")
+                      i.bi.bi-flag
 
-        form(action="/posts/comment" method="POST")
-          .input-group.input-group-sm
-            input(type="hidden" name="post_id" value=post.id)
-            input.form-control(type="text" name="comentario" placeholder="Escriba un comentario...")
-            button.btn.btn-primary-custom(type="submit")
-              i.bi.bi-send
+        if sessionUser
+          form(action="/posts/comment" method="POST")
+            .input-group.input-group-sm
+              input(type="hidden" name="post_id" value=post.id)
+              input.form-control(type="text" name="comentario" placeholder="Escriba un comentario...")
+              button.btn.btn-primary-custom(type="submit")
+                i.bi.bi-send

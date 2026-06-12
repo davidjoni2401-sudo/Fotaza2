@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS comment_reports CASCADE;
+DROP TABLE IF EXISTS private_messages CASCADE;
 DROP TABLE IF EXISTS post_reports CASCADE;
 DROP TABLE IF EXISTS interests CASCADE;
 DROP TABLE IF EXISTS collection_posts CASCADE;
@@ -122,3 +123,16 @@ CREATE TABLE comment_reports (
 );
 
 CREATE INDEX idx_comment_reports_comment_id ON comment_reports(comment_id);
+
+CREATE TABLE private_messages (
+    id SERIAL PRIMARY KEY,
+    sender_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    recipient_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    mensaje TEXT NOT NULL,
+    leido BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CHECK (sender_id <> recipient_id)
+);
+
+CREATE INDEX idx_private_messages_sender_id ON private_messages(sender_id);
+CREATE INDEX idx_private_messages_recipient_id ON private_messages(recipient_id);

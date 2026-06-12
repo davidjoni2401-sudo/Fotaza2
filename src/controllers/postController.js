@@ -117,13 +117,27 @@ export const showFeed = async (req, res) => {
     try {
 
         const busqueda = req.query.busqueda?.trim().slice(0, 100) || "";
+        const licencia = req.query.licencia || "";
+        const orden = ["destacadas", "recientes", "valoradas"].includes(req.query.orden)
+            ? req.query.orden
+            : "destacadas";
+        const valoracionMinima = Math.min(
+            5,
+            Math.max(0, Number(req.query.valoracionMinima) || 0)
+        );
+        const filters = {
+            licencia,
+            orden,
+            valoracionMinima,
+            includeCopyright: Boolean(req.session.user)
+        };
 
         let result;
 
         if (busqueda) {
-            result = await searchPosts(busqueda);
+            result = await searchPosts(busqueda, filters);
         } else {
-            result = await getAllPosts();
+            result = await getAllPosts(filters);
         }
 
         const posts = result.rows;
@@ -177,7 +191,12 @@ export const showFeed = async (req, res) => {
             collections = collectionsResult.rows;
         }
 
-        res.render("feed", { posts, collections, busqueda });
+        res.render("feed", {
+            posts,
+            collections,
+            busqueda,
+            filters
+        });
 
     } catch (error) {
 
@@ -372,7 +391,13 @@ export const showFollowingFeed = async (req, res) => {
         res.render("feed", {
             posts,
             collections,
-            feedTitle: "Publicaciones de usuarios que sigo"
+            feedTitle: "Publicaciones de usuarios que sigo",
+            busqueda: "",
+            filters: {
+                licencia: "",
+                valoracionMinima: 0,
+                orden: "recientes"
+            }
         });
     } catch (error) {
         console.log(error);

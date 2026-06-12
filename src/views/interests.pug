@@ -30,3 +30,6 @@ block content
                   .alert.alert-dark.mt-2.p-2.small
                     i.bi.bi-chat-quote-fill.me-1
                     = interest.mensaje
+                a.btn.btn-sm.btn-outline-info.mt-2(href=`/messages?user_id=${interest.user_id}`)
+                  i.bi.bi-reply-fill.me-1
+                  | Responder

@@ -9,6 +9,7 @@ import CollectionPost from "./CollectionPost.js";
 import Interest from "./Interest.js";
 import PostReport from "./PostReport.js";
 import CommentReport from "./CommentReport.js";
+import PrivateMessage from "./PrivateMessage.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -152,6 +153,26 @@ CommentReport.belongsTo(Comment, {
     foreignKey: "comment_id"
 });
 
+User.hasMany(PrivateMessage, {
+    foreignKey: "sender_id",
+    as: "sentMessages"
+});
+
+User.hasMany(PrivateMessage, {
+    foreignKey: "recipient_id",
+    as: "receivedMessages"
+});
+
+PrivateMessage.belongsTo(User, {
+    foreignKey: "sender_id",
+    as: "sender"
+});
+
+PrivateMessage.belongsTo(User, {
+    foreignKey: "recipient_id",
+    as: "recipient"
+});
+
 export {
     User,
     Post,
@@ -163,5 +184,6 @@ export {
     CollectionPost,
     Interest,
     PostReport,
-    CommentReport
+    CommentReport,
+    PrivateMessage
 };

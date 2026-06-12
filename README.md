@@ -61,7 +61,7 @@ DB_NAME=fotaza2
 
 ### 4. Inicializar la base de datos
 
-Este comando crea todas las tablas necesarias:
+Este comando crea todas las tablas necesarias y, si la base está vacía, carga automáticamente los datos de prueba de `database/seed.sql`:
 
 ```bash
 npm run db:init
@@ -83,17 +83,17 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 
 | Nombre   | Email                          | Contraseña   | Rol                      |
 |----------|--------------------------------|--------------|--------------------------|
-| Jonatan  | jonatan@fotaza.test            | 1234         | usuario                  |
-| Elizabet | eli79@fotaza.com               | 4321         | usuario                  |
-| Daiana   | dai76@fotaza.com               | 3456         | usuario                  |
-| Elizabet | david@fotaza.com               | 12345        | usuario                  |
-| Cecilia  | joni2401@fotaza.com            | 1234         | usuario                  |
+| Jonatan  | jonatan@fotaza.test            | Fotaza2026!  | usuario                  |
+| Elizabet | eli79@fotaza.com               | Fotaza2026!  | usuario                  |
+| Daiana   | dai76@fotaza.com               | Fotaza2026!  | usuario                  |
+| Elizabet | david@fotaza.com               | Fotaza2026!  | usuario                  |
+| Cecilia  | joni2401@fotaza.com            | Fotaza2026!  | usuario                  |
 
 ---
 
 ## Usuario de Validador
 
-| Validador| validador@fotaza.com           | validador123 | validador de contenidos  |
+| Validador| validador@fotaza.com           | Validador2026! | validador de contenidos |
 
 > **Nota:** Para probar interacciones entre usuarios (seguir, comentar, valorizar, denunciar) se recomienda iniciar sesión con dos usuarios distintos en navegadores o perfiles diferentes.
 
@@ -111,6 +111,8 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 - **Seguidores:** Seguir y dejar de seguir usuarios. Ver publicaciones de usuarios seguidos.
 - **Notificaciones:** Sistema de notificaciones para comentarios, valoraciones, "me interesa" y nuevos seguidores.
 - **Colecciones:** Guardar publicaciones en colecciones personales privadas.
+- **Perfiles:** Ver el perfil público, publicaciones y cantidad de seguidores de cada usuario.
+- **Mensajería privada:** Iniciar y continuar conversaciones visibles únicamente para los dos participantes.
 
 ---
 
@@ -119,7 +121,7 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 Las imágenes que aparecen en la home se ordenan por un puntaje calculado de la siguiente forma:
 
 - Se priorizan publicaciones con valoración promedio mayor o igual a 4 y con más de 3 votos.
-- Para mantener balance y mostrar contenido nuevo, se incluye también una selección aleatoria de publicaciones recientes que no entran en el grupo anterior.
+- El resto se ordena por valoración y recencia, y el usuario puede cambiar el orden desde los filtros del feed.
 
 ---
 

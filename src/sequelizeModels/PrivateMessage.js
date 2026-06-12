@@ -1,38 +1,35 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/sequelize.js";
 
-const Notification = sequelize.define("Notification", {
+const PrivateMessage = sequelize.define("PrivateMessage", {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    user_id: {
+    sender_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    from_user_id: {
+    recipient_id: {
         type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    tipo: {
-        type: DataTypes.STRING(50),
         allowNull: false
     },
     mensaje: {
         type: DataTypes.TEXT,
         allowNull: false
     },
-    leida: {
+    leido: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
     created_at: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: "notifications",
+    tableName: "private_messages",
     timestamps: false
 });
 
-export default Notification;
+export default PrivateMessage;

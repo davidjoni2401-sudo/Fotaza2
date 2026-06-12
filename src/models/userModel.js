@@ -17,3 +17,15 @@ export const findUserByEmail = async (email) => {
         rows: user ? [user.get({ plain: true })] : []
     };
 };
+
+export const findUserById = async (id) => {
+    const user = await User.findOne({
+        where: {
+            id,
+            estado: "activo"
+        },
+        attributes: ["id", "nombre", "foto_perfil", "rol"]
+    });
+
+    return user ? user.get({ plain: true }) : null;
+};

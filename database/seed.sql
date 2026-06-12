@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict 7tNE3ncVPy0egTSJAiXrBX3smtO99WAo4T5rkYZsF7l53E8W9btMcZJ06nkZK36
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -12,7 +11,6 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -27,12 +25,12 @@ SET row_security = off;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.users VALUES (1, 'Jonatan', 'jonatan@fotaza.test', '$2b$10$macdvvlQYR66f5mCVFafKecnWUOv7DBPGoKRC3A6ZT3oAXM5ycv7O', NULL, 'activo', 'usuario');
-INSERT INTO public.users VALUES (2, 'Elizabet', 'eli79@fotaza.com', '$2b$10$GOhi.hx5D0fHt/fFXPyiVOZqpiBeRlh03I/w3mulcXKpQnmgzx/.e', NULL, 'activo', 'usuario');
-INSERT INTO public.users VALUES (7, 'Daiana', 'dai76@fotaza.com', '$2b$10$qPfGJKDe7MB.qHY3Lyvp0uscwohENfzFV1.KGyYytFJEGU89VqOyC', NULL, 'activo', 'usuario');
-INSERT INTO public.users VALUES (9, 'Elizabet', 'david@fotaza.com', '$2b$10$o5FYwnd8pUNRPZ.WbDZY3ODs3n6PgC1ngBDBWhXUOtEOe9ekc1v9C', NULL, 'activo', 'usuario');
-INSERT INTO public.users VALUES (11, 'Cecilia', 'joni2401@fotaza.com', '$2b$10$buAmUuKY9W8Kkbrg.EprK.8HqjOTBoJ0Q4UBqiXN7n/DOU0G17Dsu', NULL, 'activo', 'usuario');
-INSERT INTO public.users VALUES (12, 'Validador', 'validador@fotaza.com', '$2b$10$188O6EcrTa6yr4DPvcqCme6yi.mDF9nWdIsdXUjYp6Ht79NMcvpLa', NULL, 'activo', 'validador');
+INSERT INTO public.users VALUES (1, 'Jonatan', 'jonatan@fotaza.test', '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW', NULL, 'activo', 'usuario');
+INSERT INTO public.users VALUES (2, 'Elizabet', 'eli79@fotaza.com', '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW', NULL, 'activo', 'usuario');
+INSERT INTO public.users VALUES (7, 'Daiana', 'dai76@fotaza.com', '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW', NULL, 'activo', 'usuario');
+INSERT INTO public.users VALUES (9, 'Elizabet', 'david@fotaza.com', '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW', NULL, 'activo', 'usuario');
+INSERT INTO public.users VALUES (11, 'Cecilia', 'joni2401@fotaza.com', '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW', NULL, 'activo', 'usuario');
+INSERT INTO public.users VALUES (12, 'Validador', 'validador@fotaza.com', '$2b$10$8v28TeBFrsqlEhpNEGM4beCzhAtMGfGNb4rVh2N2pD4qNCQbonzby', NULL, 'activo', 'validador');
 
 
 --
@@ -345,6 +343,3 @@ SELECT pg_catalog.setval('public.users_id_seq', 12, true);
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict 7tNE3ncVPy0egTSJAiXrBX3smtO99WAo4T5rkYZsF7l53E8W9btMcZJ06nkZK36
-

@@ -91,6 +91,11 @@ html(lang="es")
               a.nav-link(href="/posts/feed")
                 i.bi.bi-house-fill.me-1
 
+            if sessionUser
+              li.nav-item
+                a.nav-link(href=`/users/${sessionUser.id}` title="Mi perfil" aria-label="Mi perfil")
+                  i.bi.bi-person-circle.me-1
+
             li.nav-item
               a.nav-link(href="/posts/create")
                 i.bi.bi-plus-circle.me-1
@@ -106,6 +111,11 @@ html(lang="es")
             li.nav-item
               a.nav-link(href="/interests")
                 i.bi.bi-heart-fill.me-1
+
+            if sessionUser
+              li.nav-item
+                a.nav-link(href="/messages" title="Mensajes privados" aria-label="Mensajes privados")
+                  i.bi.bi-envelope-fill.me-1
 
             if sessionUser && sessionUser.rol === "validador"
               li.nav-item

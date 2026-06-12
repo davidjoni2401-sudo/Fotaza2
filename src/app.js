@@ -18,6 +18,8 @@ import notificationRoutes from "./routes/notificationRoutes.js"
 import collectionRoutes from "./routes/collectionRoutes.js";
 import interestRoutes from "./routes/interestRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 
 dotenv.config();
 
@@ -113,6 +115,8 @@ app.use("/notifications", notificationRoutes);
 app.use("/collections", collectionRoutes);
 app.use("/interests", interestRoutes);
 app.use("/reports", reportRoutes);
+app.use("/users", userRoutes);
+app.use("/messages", messageRoutes);
 
 app.use((req, res) => {
     res.status(404).send("Página no encontrada.");

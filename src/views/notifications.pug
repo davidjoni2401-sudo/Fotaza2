@@ -18,6 +18,8 @@ block content
               b= notification.from_nombre
               |  #{notification.mensaje}
             span.badge.bg-info.text-dark.me-2= notification.tipo
+            if notification.created_at
+              span.text-muted.small.me-2= new Date(notification.created_at).toLocaleString("es-AR")
             if notification.leida
               span.badge.bg-secondary Leída
             else
@@ -27,4 +29,3 @@ block content
               input(type="hidden" name="id" value=notification.id)
               button.btn.btn-sm.btn-outline-light(type="submit")
                 i.bi.bi-check-circle.me-1
-                               

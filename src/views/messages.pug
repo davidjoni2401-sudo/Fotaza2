@@ -1,0 +1,33 @@
+extends layout
+
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-envelope-fill.me-2
+    | Mensajes privados
+
+  if otherUser
+    .card.card-custom.p-3.mb-4
+      h5 Conversación con #{otherUser.nombre}
+      form(action="/messages" method="POST")
+        input(type="hidden" name="recipient_id" value=otherUser.id)
+        .input-group
+          input.form-control(type="text" name="mensaje" maxlength="1000" placeholder="Escribí un mensaje privado..." required)
+          button.btn.btn-primary-custom(type="submit" title="Enviar mensaje" aria-label="Enviar mensaje")
+            i.bi.bi-send-fill
+
+  if messages.length === 0
+    .alert.alert-secondary No hay mensajes privados todavía.
+  else
+    each message in messages
+      - const sentByMe = message.sender_id === sessionUser.id
+      - const contact = sentByMe ? message.recipient : message.sender
+      .card.card-custom.p-3.mb-3
+        .d-flex.justify-content-between.align-items-start.gap-3
+          div
+            p.mb-1
+              b= sentByMe ? `Para ${contact.nombre}` : contact.nombre
+              |  #{message.mensaje}
+            if message.created_at
+              small.text-muted= new Date(message.created_at).toLocaleString("es-AR")
+          a.btn.btn-sm.btn-outline-info(href=`/messages?user_id=${contact.id}` title=`Conversar con ${contact.nombre}`)
+            i.bi.bi-reply-fill

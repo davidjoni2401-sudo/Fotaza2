@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict tKMpYhgnjn1vhnPj7P9619iKIzbVnOXhuzwFNe8XjiNCnkdoiSecGasGa4VWe7L
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
@@ -12,7 +11,6 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -779,12 +777,12 @@ COPY public.ratings (id, user_id, post_id, valor) FROM stdin;
 --
 
 COPY public.users (id, nombre, email, password, foto_perfil, estado, rol) FROM stdin;
-1	Jonatan	jonatan@fotaza.test	$2b$10$macdvvlQYR66f5mCVFafKecnWUOv7DBPGoKRC3A6ZT3oAXM5ycv7O	\N	activo	usuario
-2	Elizabet	eli79@fotaza.com	$2b$10$GOhi.hx5D0fHt/fFXPyiVOZqpiBeRlh03I/w3mulcXKpQnmgzx/.e	\N	activo	usuario
-7	daiana	dai76@fotaza.com	$2b$10$qPfGJKDe7MB.qHY3Lyvp0uscwohENfzFV1.KGyYytFJEGU89VqOyC	\N	activo	usuario
-9	Elizabet	david@fotaza.com	$2b$10$o5FYwnd8pUNRPZ.WbDZY3ODs3n6PgC1ngBDBWhXUOtEOe9ekc1v9C	\N	activo	usuario
-11	Cecilia	joni2401@fotaza.com	$2b$10$buAmUuKY9W8Kkbrg.EprK.8HqjOTBoJ0Q4UBqiXN7n/DOU0G17Dsu	\N	activo	usuario
-12	Validador	validador@fotaza.com	$2b$10$188O6EcrTa6yr4DPvcqCme6yi.mDF9nWdIsdXUjYp6Ht79NMcvpLa	\N	activo	validador
+1	Jonatan	jonatan@fotaza.test	$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW	\N	activo	usuario
+2	Elizabet	eli79@fotaza.com	$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW	\N	activo	usuario
+7	daiana	dai76@fotaza.com	$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW	\N	activo	usuario
+9	Elizabet	david@fotaza.com	$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW	\N	activo	usuario
+11	Cecilia	joni2401@fotaza.com	$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW	\N	activo	usuario
+12	Validador	validador@fotaza.com	$2b$10$8v28TeBFrsqlEhpNEGM4beCzhAtMGfGNb4rVh2N2pD4qNCQbonzby	\N	activo	validador
 \.
 
 
@@ -1291,6 +1289,4 @@ ALTER TABLE ONLY public.ratings
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict tKMpYhgnjn1vhnPj7P9619iKIzbVnOXhuzwFNe8XjiNCnkdoiSecGasGa4VWe7L
 

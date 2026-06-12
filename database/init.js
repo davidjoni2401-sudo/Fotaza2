@@ -1,5 +1,8 @@
 import sequelize from "../src/config/sequelize.js";
 import "../src/sequelizeModels/index.js";
+import pool from "../src/config/db.js";
+import { User } from "../src/sequelizeModels/index.js";
+import { readFile } from "fs/promises";
 
  
 async function initDB() {
@@ -20,6 +23,23 @@ async function initDB() {
     console.log("  ✓ interests");
     console.log("  ✓ post_reports");
     console.log("  ✓ comment_reports");
+    console.log("  ✓ private_messages");
+
+    const usersCount = await User.count();
+
+    if (usersCount === 0) {
+      const seedUrl = new URL("./seed.sql", import.meta.url);
+      const seedFile = await readFile(seedUrl, "utf8");
+      const seedSql = seedFile
+        .split(/\r?\n/)
+        .filter(line => !line.trimStart().startsWith("\\"))
+        .join("\n");
+
+      await pool.query(seedSql);
+      console.log("  ✓ datos de prueba cargados desde database/seed.sql");
+    } else {
+      console.log("  - datos de prueba omitidos porque la base ya contiene usuarios");
+    }
  
     console.log("\nBase de datos inicializada correctamente.");
     process.exit(0);
