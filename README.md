@@ -166,4 +166,4 @@ Fotaza2/
 
 ## Autor
 
-Jonatan Aguero— Programación Web II — Universidad de La Punta
+Jonatan — Programación Web II — Universidad de La Punta

@@ -20,18 +20,7 @@ export const getCollectionsByUser = async (user_id) => {
     };
 };
 
-export const addPostToCollection = async (collection_id, post_id, user_id) => {
-    const collection = await Collection.findOne({
-        where: {
-            id: collection_id,
-            user_id
-        }
-    });
-
-    if (!collection) {
-        return null;
-    }
-
+export const addPostToCollection = async (collection_id, post_id) => {
     return await CollectionPost.create({
         collection_id,
         post_id
