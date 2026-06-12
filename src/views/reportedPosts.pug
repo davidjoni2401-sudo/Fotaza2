@@ -16,7 +16,8 @@ block content
       .card.card-custom.mb-4.p-3
         .row
           .col-md-4
-            img.img-fluid.rounded(src=`/uploads/${report.Post.imagen}`)
+            - const reportImage = report.Post.imagen.startsWith("http") ? report.Post.imagen : `/uploads/${report.Post.imagen}`
+            img.img-fluid.rounded(src=reportImage)
           .col-md-8
             h5.text-accent= report.Post.titulo
             p.mb-1

@@ -18,7 +18,8 @@ block content
       each post in posts
         .col-md-4.mb-4
           .card.card-custom
-            img.card-img-top.rounded-top(src=`/uploads/${post.imagen}`)
+            - const collectionImage = post.imagen.startsWith("http") ? post.imagen : `/uploads/${post.imagen}`
+            img.card-img-top.rounded-top(src=collectionImage)
             .card-body
               h5.card-title.text-accent= post.titulo
               p.card-text.small.text-muted Autor: #{post.autor}
