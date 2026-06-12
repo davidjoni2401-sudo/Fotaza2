@@ -16,6 +16,7 @@ import {
 import { createRating, getRatingByPost } from "../models/ratingModel.js";
 import { createNotification } from "../models/notificationModel.js";
 import { getCollectionsByUser } from "../models/collectionModel.js";
+import { uploadImage } from "../config/multer.js";
 
 
 const hydratePosts = async (posts, req) => {
@@ -68,10 +69,26 @@ export const showCreatePost = (req, res) => {
 export const createPost = async (req, res) => {
 
     try {
+        if (!req.file?.buffer) {
+            return res.status(400).send("Debés seleccionar una imagen válida.");
+        }
 
-        const imagen = req.file.path;
+        const imagen = await uploadImage(req.file);
+        const titulo = req.body.titulo?.trim() || null;
+        const descripcion = req.body.descripcion?.trim() || null;
+        const etiquetas = req.body.etiquetas?.trim() || null;
+        const licencia = req.body.licencia;
+        const marca_agua = req.body.marca_agua?.trim() || null;
 
-        const { titulo, descripcion, etiquetas, licencia, marca_agua } = req.body;
+        if (
+            (titulo && titulo.length > 150) ||
+            (descripcion && descripcion.length > 5000) ||
+            (etiquetas && etiquetas.length > 500) ||
+            (marca_agua && marca_agua.length > 100) ||
+            !["sin copyright", "con copyright"].includes(licencia)
+        ) {
+            return res.status(400).send("Los datos de la publicación son inválidos.");
+        }
 
         const user_id = req.session.user.id;
 
@@ -99,7 +116,7 @@ export const showFeed = async (req, res) => {
 
     try {
 
-        const busqueda = req.query.busqueda?.trim() || "";
+        const busqueda = req.query.busqueda?.trim().slice(0, 100) || "";
 
         let result;
 
@@ -166,7 +183,7 @@ export const showFeed = async (req, res) => {
 
         console.log(error);
 
-        res.send("Error al cargar el feed: " + error.message);
+        res.status(500).send("Error al cargar el feed.");
     }
 }
 
@@ -174,8 +191,13 @@ export const addComment = async (req, res) => {
 
     try {
 
-        const { post_id, comentario } = req.body;
+        const { post_id } = req.body;
+        const comentario = req.body.comentario?.trim();
         const user_id = req.session.user.id;
+
+        if (!comentario || comentario.length > 1000) {
+            return res.status(400).send("El comentario debe tener entre 1 y 1000 caracteres.");
+        }
 
         const postResult = await getPostById(post_id);
         const post = postResult.rows[0];
@@ -215,8 +237,8 @@ export const editComment = async (req, res) => {
         const { comment_id, comentario } = req.body;
         const cleanComment = comentario?.trim();
 
-        if (!cleanComment) {
-            return res.redirect("/posts/feed");
+        if (!cleanComment || cleanComment.length > 1000) {
+            return res.status(400).send("El comentario debe tener entre 1 y 1000 caracteres.");
         }
 
         await updateOwnComment(comment_id, user_id, cleanComment);
@@ -247,6 +269,10 @@ export const follow = async (req, res) => {
         const follower_id = req.session.user.id;
 
         const { following_id } = req.body;
+
+        if (!Number.isInteger(Number(following_id)) || Number(following_id) <= 0) {
+            return res.status(400).send("Usuario inválido.");
+        }
 
         if (follower_id == following_id) {
 
@@ -304,6 +330,11 @@ export const ratePost = async (req, res) => {
     try {
         const user_id = req.session.user.id;
         const { post_id, valor } = req.body;
+        const numericValue = Number(valor);
+
+        if (!Number.isInteger(numericValue) || numericValue < 1 || numericValue > 5) {
+            return res.status(400).send("La valoración debe estar entre 1 y 5.");
+        }
 
         const postResult = await getPostById(post_id);
         const post = postResult.rows[0];
@@ -312,7 +343,7 @@ export const ratePost = async (req, res) => {
             return res.redirect("/posts/feed");
         }
 
-        await createRating(user_id, post_id, valor);
+        await createRating(user_id, post_id, numericValue);
 
         await createNotification(
             post.user_id,
@@ -345,7 +376,7 @@ export const showFollowingFeed = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.send("Error al cargar publicaciones seguidas: " + error.message);
+        res.status(500).send("Error al cargar publicaciones seguidas.");
     }
 };
 

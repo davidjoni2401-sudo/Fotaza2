@@ -3,7 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const isProduction = process.env.DB_HOST && process.env.DB_HOST.includes("render.com");
+const isProduction = process.env.NODE_ENV === "production" ||
+    (process.env.DB_HOST && process.env.DB_HOST.includes("render.com"));
 
 const sequelize = new Sequelize(
     process.env.DB_NAME,
@@ -16,7 +17,7 @@ const sequelize = new Sequelize(
         logging: false,
         dialectOptions: isProduction ? {
             ssl: {
-                requiere: true,
+                require: true,
                 rejectUnauthorized: false
             }
         } : {}
