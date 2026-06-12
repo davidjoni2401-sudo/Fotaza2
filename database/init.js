@@ -24,6 +24,7 @@ async function initDB() {
     console.log("  ✓ post_reports");
     console.log("  ✓ comment_reports");
     console.log("  ✓ private_messages");
+    console.log("  ✓ post_images");
 
     const usersCount = await User.count();
 
@@ -40,6 +41,19 @@ async function initDB() {
     } else {
       console.log("  - datos de prueba omitidos porque la base ya contiene usuarios");
     }
+
+    await sequelize.query(`
+      INSERT INTO post_images (post_id, url, orden)
+      SELECT posts.id, posts.imagen, 0
+      FROM posts
+      WHERE NOT EXISTS (
+        SELECT 1
+        FROM post_images
+        WHERE post_images.post_id = posts.id
+      )
+      ON CONFLICT (post_id, orden) DO NOTHING
+    `);
+    console.log("  ✓ imágenes existentes vinculadas a post_images");
  
     console.log("\nBase de datos inicializada correctamente.");
     process.exit(0);

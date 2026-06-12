@@ -1,5 +1,5 @@
 import { Op, literal } from "sequelize";
-import { Post, User } from "../sequelizeModels/index.js";
+import { Post, PostImage, User } from "../sequelizeModels/index.js";
 
 const ratingAverage = literal(`(
     SELECT COALESCE(AVG(ratings.valor), 0)
@@ -82,6 +82,12 @@ const buildPostQuery = ({
             model: User,
             attributes: ["id", "nombre"],
             required: true
+        }, {
+            model: PostImage,
+            as: "images",
+            attributes: ["id", "url", "orden"],
+            separate: true,
+            order: [["orden", "ASC"]]
         }],
         order
     };
@@ -101,21 +107,29 @@ const mapPosts = posts => ({
 export const createPostModel = async (
     user_id,
     titulo,
-    imagen,
+    imagenes,
     descripcion,
     etiquetas,
     licencia,
     marca_agua
 ) => {
-    return await Post.create({
+    const post = await Post.create({
         user_id,
         titulo,
-        imagen,
+        imagen: imagenes[0],
         descripcion,
         etiquetas,
         licencia,
         marca_agua
     });
+
+    await PostImage.bulkCreate(imagenes.map((url, orden) => ({
+        post_id: post.id,
+        url,
+        orden
+    })));
+
+    return post;
 };
 
 export const getAllPosts = async (filters = {}) => {
@@ -134,7 +148,13 @@ export const searchPosts = async (busqueda, filters = {}) => {
 };
 
 export const getPostById = async (post_id) => {
-    const post = await Post.findByPk(post_id);
+    const post = await Post.findByPk(post_id, {
+        include: [{
+            model: PostImage,
+            as: "images",
+            attributes: ["id", "url", "orden"]
+        }]
+    });
 
     return {
         rows: post ? [post.get({ plain: true })] : []
@@ -153,6 +173,12 @@ export const getPostsByUserIds = async (userIds) => {
         include: [{
             model: User,
             attributes: ["nombre"]
+        }, {
+            model: PostImage,
+            as: "images",
+            attributes: ["id", "url", "orden"],
+            separate: true,
+            order: [["orden", "ASC"]]
         }],
         order: [["id", "DESC"]]
     });
@@ -181,6 +207,13 @@ export const getPostsByUserId = async (user_id, includeCopyright = true) => {
 
     const posts = await Post.findAll({
         where,
+        include: [{
+            model: PostImage,
+            as: "images",
+            attributes: ["id", "url", "orden"],
+            separate: true,
+            order: [["orden", "ASC"]]
+        }],
         order: [["id", "DESC"]]
     });
 

@@ -69,21 +69,23 @@ export const showCreatePost = (req, res) => {
 export const createPost = async (req, res) => {
 
     try {
-        if (!req.file?.buffer) {
+        if (!req.files?.length) {
             return res.status(400).send("Debés seleccionar una imagen válida.");
         }
 
-        const imagen = await uploadImage(req.file);
-        const titulo = req.body.titulo?.trim() || null;
+        const imagenes = await Promise.all(req.files.map(file => uploadImage(file)));
+        const titulo = req.body.titulo?.trim();
         const descripcion = req.body.descripcion?.trim() || null;
-        const etiquetas = req.body.etiquetas?.trim() || null;
+        const etiquetas = req.body.etiquetas?.trim();
         const licencia = req.body.licencia;
         const marca_agua = req.body.marca_agua?.trim() || null;
 
         if (
-            (titulo && titulo.length > 150) ||
+            !titulo ||
+            titulo.length > 150 ||
             (descripcion && descripcion.length > 5000) ||
-            (etiquetas && etiquetas.length > 500) ||
+            !etiquetas ||
+            etiquetas.length > 500 ||
             (marca_agua && marca_agua.length > 100) ||
             !["sin copyright", "con copyright"].includes(licencia)
         ) {
@@ -95,7 +97,7 @@ export const createPost = async (req, res) => {
         await createPostModel(
             user_id,
             titulo,
-            imagen,
+            imagenes,
             descripcion,
             etiquetas,
             licencia,
@@ -410,6 +412,10 @@ export const toggleComments = async (req, res) => {
     try {
         const user_id = req.session.user.id;
         const { post_id, cerrar } = req.body;
+
+        if (!Number.isInteger(Number(post_id))) {
+            return res.status(400).send("Publicación inválida.");
+        }
 
         await setPostCommentsClosed(
             post_id,

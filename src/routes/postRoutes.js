@@ -48,7 +48,7 @@ router.post("/comments/toggle", requireLogin, toggleComments);
 router.post(
     "/create",
     requireLogin,
-    upload.single("imagen"),
+    upload.array("imagenes", 5),
     createPost
 );
 

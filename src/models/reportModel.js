@@ -141,6 +141,38 @@ export const getReportedComments = async () => {
     };
 };
 
+export const getReportedCommentsByPostOwner = async (owner_id) => {
+    const reports = await CommentReport.findAll({
+        include: [
+            {
+                model: Comment,
+                required: true,
+                include: [
+                    {
+                        model: User,
+                        attributes: ["id", "nombre", "email"]
+                    },
+                    {
+                        model: Post,
+                        required: true,
+                        where: { user_id: owner_id },
+                        attributes: ["id", "titulo", "user_id"]
+                    }
+                ]
+            },
+            {
+                model: User,
+                attributes: ["nombre", "email"]
+            }
+        ],
+        order: [["created_at", "DESC"]]
+    });
+
+    return {
+        rows: reports.map(report => report.get({ plain: true }))
+    };
+};
+
 export const dismissCommentReports = async (comment_id) => {
     return await CommentReport.destroy({
         where: { comment_id }
@@ -154,5 +186,41 @@ export const removeComment = async (comment_id) => {
 
     return await CommentReport.destroy({
         where: { comment_id }
+    });
+};
+
+const commentBelongsToPostOwner = async (comment_id, owner_id) => {
+    return await Comment.findOne({
+        where: { id: comment_id },
+        include: [{
+            model: Post,
+            required: true,
+            where: { user_id: owner_id },
+            attributes: ["id"]
+        }]
+    });
+};
+
+export const dismissOwnCommentReports = async (comment_id, owner_id) => {
+    const comment = await commentBelongsToPostOwner(comment_id, owner_id);
+
+    if (!comment) {
+        return 0;
+    }
+
+    return await CommentReport.destroy({
+        where: { comment_id }
+    });
+};
+
+export const removeOwnReportedComment = async (comment_id, owner_id) => {
+    const comment = await commentBelongsToPostOwner(comment_id, owner_id);
+
+    if (!comment) {
+        return 0;
+    }
+
+    return await Comment.destroy({
+        where: { id: comment_id }
     });
 };

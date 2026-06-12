@@ -7,7 +7,10 @@ import {
     removeReportedPost,
     reportComment,
     dismissCommentReport,
-    removeReportedComment
+    removeReportedComment,
+    showOwnCommentReports,
+    dismissOwnCommentReport,
+    removeOwnReportedComment
 } from "../controllers/reportController.js";
 
 const router = express.Router();
@@ -33,6 +36,12 @@ const requiereValidador = (req, res, next) => {
 router.post("/post", requiereLogin, reportPost);
 
 router.post("/comment", requiereLogin, reportComment);
+
+router.get("/my-comments", requiereLogin, showOwnCommentReports);
+
+router.post("/my-comments/dismiss", requiereLogin, dismissOwnCommentReport);
+
+router.post("/my-comments/remove", requiereLogin, removeOwnReportedComment);
 
 router.get("/", requiereValidador, showReportedPosts);
 

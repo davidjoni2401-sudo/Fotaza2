@@ -10,16 +10,17 @@ block content
         form(action="/posts/create" method="POST" enctype="multipart/form-data")
           .mb-3
             label.form-label Título
-            input.form-control(type="text" name="titulo" placeholder="Título de la publicación")
+            input.form-control(type="text" name="titulo" maxlength="150" placeholder="Título de la publicación" required)
           .mb-3
-            label.form-label Imagen
-            input.form-control(type="file" name="imagen" required)
+            label.form-label Imágenes
+            input.form-control(type="file" name="imagenes" accept="image/jpeg,image/png,image/gif,image/webp" multiple required)
+            small.text-muted Podés seleccionar entre 1 y 5 imágenes.
           .mb-3
             label.form-label Descripción (opcional)
             textarea.form-control(name="descripcion" rows="3" placeholder="Descripción de la imagen...")
           .mb-3
             label.form-label Etiquetas
-            input.form-control(type="text" name="etiquetas" placeholder="naturaleza, viajes, arte...")
+            input.form-control(type="text" name="etiquetas" maxlength="500" placeholder="naturaleza, viajes, arte..." required)
           .mb-3
             label.form-label Licencia
             select.form-select(name="licencia" id="licenciaSelect")

@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS comment_reports CASCADE;
 DROP TABLE IF EXISTS private_messages CASCADE;
+DROP TABLE IF EXISTS post_images CASCADE;
 DROP TABLE IF EXISTS post_reports CASCADE;
 DROP TABLE IF EXISTS interests CASCADE;
 DROP TABLE IF EXISTS collection_posts CASCADE;
@@ -35,6 +36,16 @@ CREATE TABLE posts (
     comentarios_cerrados BOOLEAN DEFAULT false,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE post_images (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    orden INT NOT NULL DEFAULT 0 CHECK (orden >= 0),
+    UNIQUE (post_id, orden)
+);
+
+CREATE INDEX idx_post_images_post_id ON post_images(post_id);
 
 CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
