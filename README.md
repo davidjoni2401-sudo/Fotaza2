@@ -116,6 +116,17 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 
 ---
 
+## Usuario anónimo
+
+La aplicación permite ingresar al feed sin iniciar sesión desde `/posts/feed`.
+
+- Solo puede ver publicaciones activas con licencia **sin copyright**.
+- Puede utilizar el buscador y ordenar o filtrar el contenido público.
+- No puede crear publicaciones, comentar, valorar, denunciar, seguir usuarios, guardar colecciones ni enviar mensajes.
+- Las publicaciones con copyright y las acciones privadas requieren iniciar sesión.
+
+---
+
 ## Criterio de la home
 
 Las imágenes que aparecen en la home se ordenan por un puntaje calculado de la siguiente forma:
