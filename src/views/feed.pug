@@ -10,10 +10,14 @@ block content
       .col-lg-5
         input.form-control(type="text" name="busqueda" value=busqueda placeholder="Buscar por título, descripción, etiqueta o usuario...")
       .col-sm-4.col-lg-2
-        select.form-select(name="licencia" disabled=!sessionUser)
-          option(value="" selected=!filters.licencia) Todas las licencias
-          option(value="sin copyright" selected=filters.licencia === "sin copyright") Sin copyright
-          option(value="con copyright" selected=filters.licencia === "con copyright") Con copyright
+        if sessionUser
+          select.form-select(name="licencia")
+            option(value="" selected=!filters.licencia) Todas las licencias
+            option(value="sin copyright" selected=filters.licencia === "sin copyright") Sin copyright
+            option(value="con copyright" selected=filters.licencia === "con copyright") Con copyright
+        else
+          select.form-select(disabled)
+            option Sin copyright
       .col-sm-4.col-lg-2
         select.form-select(name="valoracionMinima")
           option(value="0" selected=filters.valoracionMinima === 0) Cualquier valoración
