@@ -7,8 +7,11 @@ import {
     removePost,
     createCommentReport,
     getReportedComments,
+    getReportedCommentsByPostOwner,
     dismissCommentReports,
-    removeComment
+    removeComment,
+    dismissOwnCommentReports,
+    removeOwnReportedComment as removeOwnReportedCommentModel
 } from "../models/reportModel.js";
 
 const validReportReasons = new Set([
@@ -43,7 +46,7 @@ export const reportPost = async (req, res) => {
 
         const totalReports = await countReportsByPost(post_id);
 
-        if (totalReports >= 3) {
+        if (totalReports > 3) {
             await markPostForReview(post_id);
         }
 
@@ -141,5 +144,38 @@ export const removeReportedComment = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.send("Error al borrar comentario denunciado");
+    }
+};
+
+export const showOwnCommentReports = async (req, res) => {
+    try {
+        const result = await getReportedCommentsByPostOwner(req.session.user.id);
+
+        res.render("ownCommentReports", {
+            commentReports: result.rows
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error al cargar denuncias de comentarios.");
+    }
+};
+
+export const dismissOwnCommentReport = async (req, res) => {
+    try {
+        await dismissOwnCommentReports(req.body.comment_id, req.session.user.id);
+        res.redirect("/reports/my-comments");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error al desestimar la denuncia.");
+    }
+};
+
+export const removeOwnReportedComment = async (req, res) => {
+    try {
+        await removeOwnReportedCommentModel(req.body.comment_id, req.session.user.id);
+        res.redirect("/reports/my-comments");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Error al eliminar el comentario.");
     }
 };

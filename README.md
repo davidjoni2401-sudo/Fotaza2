@@ -102,8 +102,8 @@ Todos los usuarios tienen rol de usuario registrado. Usar estas credenciales par
 ## Funcionalidades implementadas
 
 - **Autenticación:** Registro, login y logout de usuarios. Usuarios anónimos solo pueden ver contenido público.
-- **Publicaciones:** Crear publicaciones con título, descripción, imagen y etiquetas. Soporte de licencia con/sin copyright y marca de agua personalizada.
-- **Comentarios:** Comentar publicaciones, cerrar comentarios, denunciar comentarios.
+- **Publicaciones:** Crear publicaciones con título, descripción, entre una y cinco imágenes y etiquetas. Soporte de licencia con/sin copyright y marca de agua personalizada.
+- **Comentarios:** Comentar publicaciones, cerrar o abrir comentarios y gestionar denuncias sobre comentarios de publicaciones propias.
 - **Valoraciones:** Valorar imágenes del 1 al 5 (una vez por usuario, no puede valorar el autor).
 - **Denuncias:** Denunciar publicaciones con motivo y descripción. Con más de 3 denuncias la publicación entra en revisión.
 - **Me interesa:** Notificar al autor el interés de adquirir una imagen, con mensajería privada entre ambos.
@@ -133,6 +133,12 @@ Las imágenes que aparecen en la home se ordenan por un puntaje calculado de la 
 
 - Se priorizan publicaciones con valoración promedio mayor o igual a 4 y con más de 3 votos.
 - El resto se ordena por valoración y recencia, y el usuario puede cambiar el orden desde los filtros del feed.
+
+---
+
+## Copia de seguridad
+
+El archivo `fotaza2_backup.sql`, ubicado en la raíz del proyecto, contiene la estructura y los datos de prueba necesarios para restaurar la base completa.
 
 ---
 

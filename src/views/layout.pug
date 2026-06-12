@@ -117,6 +117,10 @@ html(lang="es")
                 a.nav-link(href="/messages" title="Mensajes privados" aria-label="Mensajes privados")
                   i.bi.bi-envelope-fill.me-1
 
+              li.nav-item
+                a.nav-link(href="/reports/my-comments" title="Denuncias de comentarios" aria-label="Denuncias de comentarios")
+                  i.bi.bi-chat-left-text-fill.me-1
+
             if sessionUser && sessionUser.rol === "validador"
               li.nav-item
                 a.nav-link(href="/reports" title="Panel de denuncias" aria-label="Panel de denuncias")

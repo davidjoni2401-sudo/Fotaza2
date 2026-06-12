@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h2.text-accent.mb-4
+    i.bi.bi-chat-left-text-fill.me-2
+    | Denuncias en mis publicaciones
+
+  if commentReports.length === 0
+    .alert.alert-success No hay comentarios denunciados en tus publicaciones.
+  else
+    each report in commentReports
+      .card.card-custom.mb-4.p-3
+        h5= report.Comment.Post.titulo || "Sin título"
+        p.mb-1
+          b Autor del comentario:
+          |  #{report.Comment.User.nombre}
+        .bg-dark.rounded.p-3.my-2
+          p.mb-0= report.Comment.comentario
+        .alert.alert-warning.report-alert.p-2
+          p.mb-1
+            b Motivo:
+            |  #{report.motivo}
+          p.mb-1
+            b Descripción:
+            |  #{report.descripcion || "Sin descripción"}
+          p.mb-0
+            b Denunciante:
+            |  #{report.User.nombre}
+        .d-flex.gap-2
+          form(action="/reports/my-comments/dismiss" method="POST")
+            input(type="hidden" name="comment_id" value=report.comment_id)
+            button.btn.btn-outline-success(type="submit")
+              i.bi.bi-x-circle.me-1
+              | Desestimar
+          form(action="/reports/my-comments/remove" method="POST" onsubmit="return confirm('¿Eliminar este comentario?')")
+            input(type="hidden" name="comment_id" value=report.comment_id)
+            button.btn.btn-danger(type="submit")
+              i.bi.bi-trash-fill.me-1
+              | Eliminar comentario

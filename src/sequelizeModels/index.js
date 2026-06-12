@@ -10,6 +10,7 @@ import Interest from "./Interest.js";
 import PostReport from "./PostReport.js";
 import CommentReport from "./CommentReport.js";
 import PrivateMessage from "./PrivateMessage.js";
+import PostImage from "./PostImage.js";
 
 User.hasMany(Post, {
     foreignKey: "user_id"
@@ -17,6 +18,15 @@ User.hasMany(Post, {
 
 Post.belongsTo(User, {
     foreignKey: "user_id"
+});
+
+Post.hasMany(PostImage, {
+    foreignKey: "post_id",
+    as: "images"
+});
+
+PostImage.belongsTo(Post, {
+    foreignKey: "post_id"
 });
 
 User.hasMany(Comment, {
@@ -185,5 +195,6 @@ export {
     Interest,
     PostReport,
     CommentReport,
-    PrivateMessage
+    PrivateMessage,
+    PostImage
 };

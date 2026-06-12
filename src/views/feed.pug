@@ -67,12 +67,29 @@ block content
         if post.titulo
           h6.fw-bold(style="color:#00bfff")= post.titulo
 
-        .position-relative.mb-3
-          img.img-fluid.rounded(src=post.imagen)
-          if post.marca_agua
-            span.position-absolute.bottom-0.end-0.m-2.badge.bg-dark.opacity-75
-              i.bi.bi-droplet-fill.me-1
-              = post.marca_agua
+        - const postImages = post.images && post.images.length ? post.images.map(image => image.url) : [post.imagen]
+        if postImages.length > 1
+          .carousel.slide.mb-3(id=`post-carousel-${post.id}`)
+            .carousel-inner
+              each imageUrl, imageIndex in postImages
+                .carousel-item(class=imageIndex === 0 ? "active" : "")
+                  .position-relative
+                    img.d-block.w-100.rounded(src=imageUrl alt=`Imagen ${imageIndex + 1} de ${post.titulo}`)
+                    if post.marca_agua
+                      span.position-absolute.bottom-0.end-0.m-2.badge.bg-dark.opacity-75
+                        i.bi.bi-droplet-fill.me-1
+                        = post.marca_agua
+            button.carousel-control-prev(type="button" data-bs-target=`#post-carousel-${post.id}` data-bs-slide="prev" aria-label="Imagen anterior")
+              span.carousel-control-prev-icon
+            button.carousel-control-next(type="button" data-bs-target=`#post-carousel-${post.id}` data-bs-slide="next" aria-label="Imagen siguiente")
+              span.carousel-control-next-icon
+        else
+          .position-relative.mb-3
+            img.img-fluid.rounded(src=postImages[0])
+            if post.marca_agua
+              span.position-absolute.bottom-0.end-0.m-2.badge.bg-dark.opacity-75
+                i.bi.bi-droplet-fill.me-1
+                = post.marca_agua
 
         if post.descripcion
           p.card-text= post.descripcion
@@ -148,6 +165,18 @@ block content
           i.bi.bi-chat-dots-fill.me-1
           | Comentarios
 
+        if post.isOwner
+          form.mb-3(action="/posts/comments/toggle" method="POST")
+            input(type="hidden" name="post_id" value=post.id)
+            input(type="hidden" name="cerrar" value=post.comentarios_cerrados ? "false" : "true")
+            button.btn.btn-sm.btn-outline-warning(type="submit")
+              if post.comentarios_cerrados
+                i.bi.bi-chat-left-text.me-1
+                | Abrir comentarios
+              else
+                i.bi.bi-chat-left-x.me-1
+                | Cerrar comentarios
+
         if post.comments
           each comment in post.comments
             .bg-dark.rounded.p-2.mb-2.small.text-white
@@ -191,7 +220,9 @@ block content
                     button.btn.btn-outline-danger(type="submit" title="Denunciar comentario" aria-label="Denunciar comentario")
                       i.bi.bi-flag
 
-        if sessionUser
+        if post.comentarios_cerrados
+          p.text-muted.small Los comentarios están cerrados.
+        else if sessionUser
           form(action="/posts/comment" method="POST")
             .input-group.input-group-sm
               input(type="hidden" name="post_id" value=post.id)

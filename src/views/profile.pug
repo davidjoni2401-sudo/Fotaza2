@@ -39,7 +39,8 @@ block content
       each post in posts
         .col-sm-6.col-lg-4
           .card.card-custom.h-100
-            img.card-img-top(src=post.imagen alt=post.titulo || "Publicación" style="height:220px;object-fit:cover")
+            - const profileImage = post.images && post.images.length ? post.images[0].url : post.imagen
+            img.card-img-top(src=profileImage alt=post.titulo || "Publicación" style="height:220px;object-fit:cover")
             .card-body
               h5.card-title= post.titulo || "Sin título"
               if post.descripcion
