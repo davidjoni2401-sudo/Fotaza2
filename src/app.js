@@ -98,28 +98,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
-    if (["GET", "HEAD", "OPTIONS"].includes(req.method)) {
-        return next();
-    }
-
-    const origin = req.get("origin");
-
-    if (origin) {
-        try {
-            const originHost = new URL(origin).host;
-
-            if (originHost !== req.get("host")) {
-                return res.status(403).send("Solicitud rechazada.");
-            }
-        } catch {
-            return res.status(403).send("Solicitud rechazada.");
-        }
-    }
-
-    next();
-});
-
 app.use(express.static("public"));
 
 
