@@ -11,6 +11,30 @@ async function initDB() {
     console.log("Conexión a la base de datos establecida correctamente.");
  
     await sequelize.sync({ alter: true });
+    await sequelize.query(`
+  UPDATE users
+  SET
+    nombre = CASE id
+      WHEN 1 THEN 'Jonatan'
+      WHEN 2 THEN 'Elizabet'
+      WHEN 7 THEN 'Daiana'
+      WHEN 9 THEN 'Elizabet'
+      WHEN 11 THEN 'Cecilia'
+    END,
+    email = CASE id
+      WHEN 1 THEN 'jonatan@fotaza.test'
+      WHEN 2 THEN 'eli79@fotaza.com'
+      WHEN 7 THEN 'dai76@fotaza.com'
+      WHEN 9 THEN 'david@fotaza.com'
+      WHEN 11 THEN 'joni2401@fotaza.com'
+    END,
+    password = '$2b$10$Zs27Jui9lI/8vK4dmt.yGOp/apX.56TpN4pN9ZPpQjjAh55/WuWVW',
+    estado = 'activo',
+    rol = 'usuario'
+  WHERE id IN (1, 2, 7, 9, 11);
+`);
+
+console.log("Usuarios de prueba actualizados.");
     console.log("Tablas creadas/verificadas correctamente:");
     console.log("  ✓ users");
     console.log("  ✓ posts");
